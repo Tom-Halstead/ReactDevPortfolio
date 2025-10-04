@@ -1,4 +1,8 @@
-/* Panel area */
+/* ============================
+   PROJECTS PAGE (FULL FILE)
+   ============================ */
+
+/* Panel area (generic) */
 .view {
   width: min(1100px, 92vw);
   height: min(560px, calc(100vh - 64px - 56px - 48px - 24px));
@@ -409,5 +413,100 @@
   .stack-ico {
     width: 16px;
     height: 16px;
+  }
+}
+
+/* ===========================================================
+   Scoped fixes ONLY for the Projects page.
+   Ensure the outer <section> has id="panel-projects".
+   These ensure the panel background fully covers all cards,
+   and remove extra vertical space on mobile.
+   =========================================================== */
+
+/* Make the projects panel grow with content and own its padding/background */
+#panel-projects.view {
+  height: auto; /* override generic fixed view height */
+  min-height: 0;
+  align-content: start;
+}
+
+/* The wrapper should size to content on this page (no forced 1fr stretch) */
+#panel-projects .projects-wrap {
+  height: auto;
+  grid-template-rows: auto auto auto; /* headings + grid (natural height) */
+}
+
+/* Mobile: stop equal-height cards and forced blurb stretch */
+@media (max-width: 760px) {
+  #panel-projects .projects-grid {
+    gap: clamp(8px, 1.6vw, 14px); /* slightly tighter on phones */
+    grid-auto-rows: auto; /* was 1fr globally */
+  }
+
+  #panel-projects .project-card {
+    gap: 6px;
+    padding: 12px;
+    border-radius: 14px;
+    grid-template-rows: auto auto auto auto; /* was auto 1fr auto auto */
+  }
+
+  #panel-projects .project-head {
+    gap: 8px;
+  }
+  #panel-projects .project-head .dot {
+    font-size: 16px;
+  }
+  #panel-projects .project-title {
+    font-size: clamp(15px, 4.2vw, 17px);
+  }
+
+  #panel-projects .project-blurb {
+    margin: 0;
+    line-height: 1.35;
+    -webkit-line-clamp: 2;
+  }
+
+  #panel-projects .stack-row {
+    gap: 6px 8px;
+  }
+  #panel-projects .stack-pill {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+  #panel-projects .stack-ico {
+    width: 16px;
+    height: 16px;
+  }
+
+  #panel-projects .project-cta {
+    margin-top: 2px;
+  }
+  #panel-projects .cta-pill {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  #panel-projects .flyout-inner {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  #panel-projects .project-card {
+    gap: 6px;
+    padding: 10px;
+    border-radius: 12px;
+    grid-template-rows: auto auto auto auto;
+  }
+  #panel-projects .project-title {
+    font-size: clamp(14px, 4.4vw, 16px);
+  }
+  #panel-projects .stack-pill {
+    padding: 4px 7px;
+    font-size: 10.5px;
+  }
+  #panel-projects .cta-pill {
+    padding: 4px 8px;
+    font-size: 10.5px;
   }
 }

@@ -13,7 +13,7 @@ export default function Tabs({ active, onChange }) {
   const handleMouseEnter = (key) => {
     hoverTimers.current[key] = setTimeout(() => {
       onChange(key);
-    }, 500);
+    }, 0);
   };
 
   const handleMouseLeave = (key) => {

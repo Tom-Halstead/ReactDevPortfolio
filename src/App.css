@@ -1,28 +1,27 @@
-/* ----- App shell: flexible height + sticky footer ----- */
+/* ----- App shell: flexible height + real sticky footer ----- */
 .app-shell {
+  /* allow page to be taller than the viewport while still filling it */
   min-height: 100dvh; /* better than 100vh on mobile */
   height: auto;
   display: grid;
-  /* header, tabs, content, footer(auto) */
-  grid-template-rows: 64px 56px minmax(0, 1fr) auto;
+  grid-template-rows: 64px 56px minmax(0, 1fr) minmax(48px, auto); /* header, tabs, content, footer (footer grows) */
   background: var(--bg);
 }
 
 @media (max-width: 640px) {
   .app-shell {
-    grid-template-rows: 56px 48px minmax(0, 1fr) auto;
+    grid-template-rows: 56px 48px minmax(0, 1fr) minmax(48px, auto);
   }
 }
 
-/* ----- Viewport/content area: scrolls within content row ----- */
+/* ----- Viewport/content area: scrolls, starts at top, centers horizontally ----- */
 .viewport {
-  min-height: 0; /* critical for scrollable grid children */
-  overflow-y: auto;
+  /* leave overflow visible on x, but scroll on y inside the content row only (uncomment if needed) */
+  /* overflow-y: auto; */
   overflow-x: hidden;
   padding: clamp(12px, 3vw, 24px);
   display: grid;
-  align-content: start;
-  justify-items: center;
+  place-items: center;
 }
 
 /* Panels */
@@ -32,11 +31,8 @@
   box-shadow: var(--shadow);
   border-radius: 18px;
 }
-
 @media (max-width: 480px) {
   .panel {
     border-radius: 14px;
   }
 }
-
-/* (Any other global/layout styles stay here) */

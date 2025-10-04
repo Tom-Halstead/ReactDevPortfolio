@@ -25,6 +25,10 @@
   align-content: start;
   gap: clamp(14px, 2.4vw, 18px);
 }
+/* Optional: add extra space above the status card when it’s at the bottom */
+.intro .status-card {
+  margin-top: 4px;
+}
 
 .title {
   font-size: clamp(28px, 4vw, 44px);
@@ -121,15 +125,14 @@
   font-weight: 700;
   color: #0f1115;
   font-size: clamp(13px, 1.2vw, 14px);
-  overflow: visible; /* FIX: allow underline to render */
+  overflow: visible;
 }
-
 .status-card .card-text::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0; /* FIX: sit on baseline, not below it */
+  bottom: 0;
   height: 2px;
   background: linear-gradient(
     90deg,
@@ -141,16 +144,14 @@
     rgba(15, 17, 21, 0) 65%,
     transparent 100%
   );
-  transform: translateX(-105%); /* start fully off-left */
+  transform: translateX(-105%);
   opacity: 0;
   will-change: transform, opacity;
   pointer-events: none;
 }
-
 .status-card:hover .card-text::after {
-  animation: wave-underline 1.1s ease-out forwards; /* plays once per hover */
+  animation: wave-underline 1.1s ease-out forwards;
 }
-
 @keyframes wave-underline {
   0% {
     transform: translateX(-105%);
@@ -171,7 +172,6 @@
     opacity: 0;
   }
 }
-
 .status-card:hover .card-text::after {
   animation: wave-underline 1.1s ease-out infinite;
 }
@@ -194,7 +194,6 @@
   box-shadow: var(--shadow);
   overflow: hidden;
   cursor: zoom-in;
-  /* make it a proper button without default look */
   -webkit-appearance: none;
   appearance: none;
   outline: none;
@@ -235,8 +234,6 @@
   pointer-events: none;
   transition: opacity 180ms ease;
 }
-
-/* Hover hint: subtle scale + ripple ring + “Click to expand” label */
 .avatar-wrap:hover .avatar {
   transform: scale(0.96) translateY(-1px);
   filter: contrast(1.04) saturate(1.05);
@@ -349,7 +346,7 @@
   transform: translateY(0);
 }
 
-/* Reduced motion: respect user preference */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .home-card,
   .avatar,
@@ -383,5 +380,140 @@
 @media (max-width: 640px) {
   .view {
     height: min(520px, calc(100vh - 56px - 48px - 44px - 20px));
+  }
+}
+
+/* === About Me (Snapshot + Chips) === */
+.about-card {
+  margin-top: 2px;
+}
+
+.about-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.about-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--outline);
+  background: color-mix(in oklab, var(--panel-2) 92%, transparent);
+  font-size: 12px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.about-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: clamp(13px, 1.2vw, 14px);
+  line-height: 1.45;
+}
+.about-list li {
+  margin: 4px 0;
+}
+
+/* Accordion */
+.about-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.about-toggle {
+  display: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 10px;
+  border: 1px solid var(--outline);
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease,
+    border-color 0.15s ease;
+}
+.about-toggle:hover {
+  transform: translateY(-1px);
+}
+.about-toggle:active {
+  transform: translateY(0);
+}
+.chev {
+  width: 16px;
+  height: 16px;
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.18s ease;
+}
+.about-toggle.is-open .chev {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 860px) {
+  .about-toggle {
+    display: grid;
+    place-items: center;
+  }
+  .about-card .about-body {
+    overflow: hidden;
+    max-height: 1000px;
+    transition: max-height 220ms ease;
+  }
+  .about-card.is-collapsed .about-body {
+    max-height: 0;
+  }
+  .about-card.is-collapsed {
+    padding-bottom: 10px;
+  }
+
+  /* Swap order on mobile */
+  .about-home {
+    order: 1;
+  }
+  .about-work {
+    order: 2;
+  }
+
+  .intro {
+    gap: clamp(14px, 3.2vw, 22px);
+  }
+  .about-chip-row {
+    justify-content: center;
+  }
+}
+
+/* ========================================================= */
+/* === FIX: Prevent overflow for the Home panel specifically */
+/* ========================================================= */
+
+/* Let #panel-home grow naturally and start at top */
+#panel-home.view,
+.panel-home.view {
+  height: auto; /* override height cap on Home only */
+  min-height: 0; /* required inside grid for proper shrink/grow */
+  /* place-items from global centers vertically — we want top-start for long content */
+  place-items: initial;
+  align-content: start;
+  justify-items: center; /* still keep it centered horizontally */
+}
+
+/* The split container should not force 100% height (let content define it) */
+#panel-home .home-split,
+.panel-home .home-split {
+  height: auto;
+  min-height: 0;
+  /* keep desktop vertical alignment pleasant; start prevents “floating middle” on long content */
+  align-items: start;
+}
+
+/* On mobile, keep Home panel uncapped as well */
+@media (max-width: 640px) {
+  #panel-home.view,
+  .panel-home.view {
+    height: auto;
   }
 }

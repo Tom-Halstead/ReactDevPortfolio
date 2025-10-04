@@ -74,6 +74,8 @@ export default function Footer() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
+                focusable="false"
               >
                 <path d="M12 11v8m0 0l-3-3m3 3l3-3" />
                 <path d="M3 19a9 9 0 0 1 18 0" />
@@ -96,6 +98,8 @@ export default function Footer() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
+                focusable="false"
               >
                 <circle cx="12" cy="8" r="6" />
                 <path d="M8 14v7l4-2 4 2v-7" />
