@@ -1,13 +1,13 @@
-.tabs{
+.tabs {
   height: 56px;
   display: flex;
   gap: 6px;
   align-items: center;
   padding: 0 8px;
   border-bottom: 1px solid var(--outline);
-  background: #11131a;
+  background: var(--panel); /* was hardcoded */
 }
-.tab{
+.tab {
   position: relative;
   height: 36px;
   padding: 0 12px;
@@ -17,23 +17,44 @@
   border: 1px solid transparent;
   font-weight: 600;
   cursor: pointer;
-  transition: color .2s ease, background .2s ease, transform .08s ease;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.08s ease;
   font-size: 14px;
 }
-.tab:hover{ color: #fff; background: #1a1c26; }
-.tab:active{ transform: translateY(1px); }
-.tab.is-active{ color: #0f1115; background: var(--accent); }
-.indicator{
+.tab:hover {
+  color: var(--text);
+  background: var(--panel-2);
+} /* was hardcoded */
+.tab:active {
+  transform: translateY(1px);
+}
+.tab.is-active {
+  color: #0f1115; /* readable on accent for both themes */
+  background: var(--accent);
+}
+.indicator {
   position: absolute;
   left: 50%;
   bottom: -14px;
   translate: -50% 0;
-  width: 18px; height: 18px;
-  background: radial-gradient(circle at 50% 0, rgba(123,224,0,.6), transparent 70%);
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(
+    circle at 50% 0,
+    color-mix(in oklab, var(--accent) 60%, transparent),
+    transparent 70%
+  );
   pointer-events: none;
 }
-@media (max-width: 480px){
-  .tabs{ gap: 4px; }
-  .tab{ padding: 0 10px; font-size: 13px; height: 34px; }
-  .indicator{ display:none; }
+@media (max-width: 480px) {
+  .tabs {
+    gap: 4px;
+  }
+  .tab {
+    padding: 0 10px;
+    font-size: 13px;
+    height: 34px;
+  }
+  .indicator {
+    display: none;
+  }
 }

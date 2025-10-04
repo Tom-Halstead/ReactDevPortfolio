@@ -1,14 +1,223 @@
-.view{
+/* Panel area */
+.view {
   width: min(1100px, 92vw);
   height: min(560px, calc(100vh - 64px - 56px - 48px - 24px));
-  padding: clamp(16px, 3vw, 28px);
+  padding: clamp(
+    16px,
+    3vw,
+    24px
+  ); /* a bit tighter to avoid vertical overflow */
   display: grid;
   place-items: center;
   text-align: center;
 }
-.title{ font-size: clamp(28px, 4vw, 44px); margin: 0 0 10px; }
-.subtitle{ color: var(--muted); margin: 0; }
-.grid{ display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); width:100%;}
-@media (max-width: 640px){
-  .view{ height: min(520px, calc(100vh - 56px - 48px - 44px - 20px)); }
+
+/* Internal wrapper: reserve space for title/subtitle, grid fills the rest */
+.projects-wrap {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 8px;
+}
+
+.title {
+  font-size: clamp(28px, 4vw, 44px);
+  margin: 0;
+  color: var(--text);
+}
+.subtitle {
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+/* Grid fills remaining height, prevents overflow */
+.grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
+
+.projects-grid {
+  gap: clamp(10px, 1.8vw, 16px);
+  /* 2 columns by default; auto rows equal height */
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+  justify-items: stretch;
+  overflow: hidden; /* guard against hover lift */
+}
+
+/* ===== Card ===== */
+.project-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto; /* head, blurb flex area, stack, cta */
+  gap: 8px;
+  padding: clamp(12px, 2vw, 16px);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--outline);
+  box-shadow: var(--shadow);
+  text-align: left;
+  overflow: clip;
+  isolation: isolate;
+  min-height: 0; /* allow children to shrink */
+  transition: transform 0.16s ease, border-color 0.2s ease, background 0.2s ease,
+    box-shadow 0.3s ease;
+}
+.project-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--outline));
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* Accent glow kept subtle (and within card bounds thanks to overflow:clip) */
+.project-card .glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+      120px 80px at 10% -10%,
+      color-mix(in oklab, var(--accent) 40%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      120px 80px at 110% 110%,
+      color-mix(in oklab, var(--accent) 30%, transparent),
+      transparent 72%
+    );
+  opacity: 0.35;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.project-card:hover .glow {
+  opacity: 0.6;
+  transform: scale(1.01);
+}
+
+/* Head */
+.project-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+.project-head .dot {
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1;
+  translate: 0 1px;
+}
+.project-title {
+  font-size: clamp(16px, 1.6vw, 18px);
+  margin: 0;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Blurb: clamp lines to avoid stretching card */
+.project-blurb {
+  margin: 2px 0 0 0;
+  color: var(--muted);
+  font-size: clamp(13px, 1.2vw, 14px);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* show up to 3 lines */
+  -webkit-box-orient: vertical;
+}
+
+/* Stack row stays near bottom; wraps as needed */
+.stack-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.stack-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--outline);
+  background: var(--panel-2);
+  color: var(--text);
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.1s ease;
+}
+.stack-pill:hover {
+  background: var(--panel);
+  transform: translateY(-1px);
+}
+.stack-ico {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+}
+.stack-text {
+  text-transform: none;
+}
+
+/* CTA */
+.project-cta {
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.project-card:hover .project-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cta-pill {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f1115;
+  background: var(--accent);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--accent) 60%, var(--outline));
+}
+
+/* ===== Responsive rules ===== */
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+  .project-blurb {
+    -webkit-line-clamp: 3;
+  }
+}
+
+@media (max-width: 760px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  .project-blurb {
+    -webkit-line-clamp: 4;
+  }
+}
+
+@media (max-width: 640px) {
+  .view {
+    height: min(520px, calc(100vh - 56px - 48px - 44px - 20px));
+  }
+  .stack-pill {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  .stack-ico {
+    width: 16px;
+    height: 16px;
+  }
 }
