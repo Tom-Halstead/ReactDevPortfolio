@@ -1,0 +1,29 @@
+.bar{
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  background: rgba(15,17,21,.7);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--outline);
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+  font-weight: 700; letter-spacing: .4px;
+}
+.dot{ color: var(--accent); }
+.spacer{ flex:1; }
+.actions{ display:flex; gap: 10px; }
+
+.ghost, .primary{
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--outline);
+  background: var(--panel);
+  transition: transform .12s ease, background .2s ease, border-color .2s ease;
+  font-weight: 600;
+}
+.ghost:hover{ transform: translateY(-1px); border-color:#363a4a; }
+.primary{ border-color: #363a4a; }
+.primary:hover{ background: var(--panel-2); transform: translateY(-1px); }
