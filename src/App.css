@@ -1,180 +1,42 @@
-/* ----- App shell: flexible height + real sticky footer ----- */
+/* ----- App shell: flexible height + sticky footer ----- */
 .app-shell {
-  /* allow page to be taller than the viewport while still filling it */
   min-height: 100dvh; /* better than 100vh on mobile */
   height: auto;
   display: grid;
-  grid-template-rows: 64px 56px minmax(0, 1fr) 48px; /* header, tabs, content, footer */
-  background: var(--bg); /* ensures bg continues behind everything */
+  /* header, tabs, content, footer(auto) */
+  grid-template-rows: 64px 56px minmax(0, 1fr) auto;
+  background: var(--bg);
 }
 
 @media (max-width: 640px) {
   .app-shell {
-    grid-template-rows: 56px 48px minmax(0, 1fr) 48px;
+    grid-template-rows: 56px 48px minmax(0, 1fr) auto;
   }
 }
 
-/* ----- Viewport/content area: scrolls, starts at top, centers horizontally ----- */
+/* ----- Viewport/content area: scrolls within content row ----- */
 .viewport {
-  /* leave overflow visible on x, but scroll on y inside the content row only */
+  min-height: 0; /* critical for scrollable grid children */
   overflow-y: auto;
   overflow-x: hidden;
   padding: clamp(12px, 3vw, 24px);
   display: grid;
-  align-content: start; /* keep content from floating in the middle */
-  justify-items: center; /* horizontal centering of inner panels */
+  align-content: start;
+  justify-items: center;
 }
 
-/* If you ever need page-level scrolling instead of content-only:
-   remove overflow-y from .viewport and rely on body scroll. */
-
-/* ----- Panel visuals unchanged, minor polish ----- */
+/* Panels */
 .panel {
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--outline);
   box-shadow: var(--shadow);
   border-radius: 18px;
 }
+
 @media (max-width: 480px) {
   .panel {
     border-radius: 14px;
   }
 }
 
-/* ====== Your skills view bits (from earlier message), tuned for mobile ====== */
-
-/* Container of the "view" inside .viewport (if you use .view) */
-.view {
-  width: min(1100px, 92vw);
-  /* allow tall content inside the scrolling .viewport */
-  height: auto;
-  min-height: 0; /* important inside grid to avoid extra stretch */
-  padding: clamp(16px, 3vw, 28px);
-  display: grid;
-  align-content: start;
-  justify-items: center;
-  text-align: center;
-}
-
-/* Tabs: wrap and scroll if needed */
-.skill-tabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 8px;
-  background: var(--panel);
-  border: 1px solid var(--outline);
-  border-radius: 14px;
-  margin-bottom: 16px;
-  overflow-x: auto; /* fallback when labels are many/long */
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-.skill-tab {
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.08s ease;
-  font-size: 14px;
-  white-space: nowrap;
-}
-.skill-tab:hover {
-  color: var(--text);
-  background: var(--panel-2);
-}
-.skill-tab.is-active {
-  color: #0f1115;
-  background: var(--accent);
-}
-
-/* Panel body */
-.skill-panel {
-  background: var(--panel);
-  border: 1px solid var(--outline);
-  border-radius: 14px;
-  padding: clamp(12px, 2.5vw, 20px);
-  width: 100%;
-}
-
-/* Pills: responsive grid that packs nicely */
-.pill-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-/* Pill card */
-.pill {
-  padding: 12px 14px;
-  border: 1px solid var(--outline);
-  background: var(--panel-2);
-  border-radius: 16px;
-  font-size: 13px;
-  display: grid;
-  grid-template-rows: auto auto;
-  justify-items: center;
-  align-items: center;
-  gap: 8px;
-  text-align: center;
-  color: var(--text);
-  transition: transform 0.08s ease, background 0.15s ease;
-}
-.pill:hover {
-  transform: translateY(-1px);
-  background: var(--panel);
-}
-
-.pill-title {
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-/* ----- Logo sizing: responsive utility (replaces fixed 50x50) ----- */
-.logo-50 {
-  /* scale down on small screens automatically */
-  width: clamp(32px, 8vw, 50px);
-  height: clamp(32px, 8vw, 50px);
-  object-fit: contain;
-  display: block;
-}
-
-/* Extra tightening for very small phones */
-@media (max-width: 640px) {
-  .view {
-    padding: 16px;
-  }
-  .skill-tab {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
-  .pill-list {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-  }
-  .pill {
-    font-size: 12px;
-    padding: 10px 12px;
-    gap: 6px;
-  }
-}
-@media (max-width: 380px) {
-  .pill-list {
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  }
-}
-
-/* Accessibility: respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .skill-tab,
-  .pill {
-    transition: none;
-  }
-}
+/* (Any other global/layout styles stay here) */

@@ -19,6 +19,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  min-height: 48px;
   position: relative;
 }
 
@@ -83,7 +84,7 @@
 /* CENTER DIVIDER */
 .footer-divider {
   width: 1px;
-  height: 28px;
+  height: 22px;
   background: linear-gradient(
     180deg,
     transparent,
@@ -98,10 +99,18 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 10px 14px;
   flex: 1;
+  gap: 10px 12px;
   text-align: right;
+  flex-wrap: nowrap; /* keep in one line on desktop */
+}
+
+.contact-link,
+.contact-location {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap; /* prevent wrapping like "United / States" */
+  line-height: 1;
 }
 
 .contact-link {
@@ -109,6 +118,9 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
+  max-width: 32ch; /* prevent super long emails breaking layout */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .contact-link:hover {
@@ -119,6 +131,41 @@
 .contact-location {
   color: var(--muted);
   font-size: 13px;
+}
+
+/* Resume / Certification chips */
+.footer-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 6px;
+}
+
+.link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  border-radius: 9999px;
+  border: 1px solid var(--outline);
+  background: color-mix(in oklab, var(--panel-2) 88%, transparent);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.link-chip:hover {
+  background: var(--panel);
+  border-color: color-mix(in oklab, var(--outline) 70%, transparent);
+  transform: translateY(-1px);
+  color: var(--accent);
+}
+
+.icon-16 {
+  width: 14px;
+  height: 14px;
 }
 
 /* RESPONSIVE */
@@ -144,5 +191,23 @@
       color-mix(in oklab, var(--muted) 40%, transparent),
       transparent
     );
+  }
+
+  .footer-right {
+    flex-wrap: wrap; /* allow chips to drop below */
+    justify-content: center;
+    gap: 8px 10px;
+  }
+
+  .contact-link,
+  .contact-location {
+    white-space: normal;
+    max-width: none;
+  }
+
+  .footer-actions {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
   }
 }
