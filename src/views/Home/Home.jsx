@@ -65,7 +65,7 @@ export default function Home() {
                 <span className="dot" aria-hidden="true">
                   ●
                 </span>
-                About Me — Work
+                About — Work
               </strong>
               <button
                 type="button"
@@ -130,7 +130,7 @@ export default function Home() {
                 <span className="dot" aria-hidden="true">
                   ●
                 </span>
-                About Me — Home
+                About — Home
               </strong>
               <button
                 type="button"

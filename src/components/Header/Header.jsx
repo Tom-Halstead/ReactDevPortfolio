@@ -75,6 +75,7 @@ export default function Header() {
           </a>
           <a
             href="https://github.com/tom-halstead"
+            target="_blank"
             rel="noreferrer"
             className="primary"
             aria-label="GitHub profile"
