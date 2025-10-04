@@ -204,10 +204,12 @@
   height: 86%;
   object-fit: cover;
   object-position: 50% 95%;
+  /* object-position: center; */
   border-radius: 50%;
   filter: contrast(1.02) saturate(1.02);
   transition: transform 180ms ease, filter 180ms ease;
 }
+
 .ring {
   position: absolute;
   inset: 6px;
@@ -243,6 +245,7 @@
   box-shadow: inset 0 0 26px color-mix(in oklab, var(--accent) 36%, transparent),
     0 0 30px color-mix(in oklab, var(--accent) 28%, transparent);
 }
+
 .avatar-wrap::after {
   content: "Click to expand";
   position: absolute;

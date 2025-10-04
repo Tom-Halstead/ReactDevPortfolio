@@ -107,7 +107,7 @@ export default function Home() {
 
               <ul className="about-list">
                 <li>
-                  Very consinstent, determined, and disciplined in all walks of
+                  Very consistent, determined, and disciplined in all walks of
                   life.
                 </li>
                 <li>Built secure auth flows (Cognito/OIDC/JWT).</li>
@@ -171,11 +171,10 @@ export default function Home() {
               </div>
 
               <ul className="about-list">
-                <li>
-                  Weekend Activity: Outdoor activities that keep me grounded.
-                </li>
+                <li>Weekend: Outdoor activities that keep me grounded.</li>
                 <li>I like keeping things organized and measurable.</li>
                 <li>Always up for a new challenge or adventure.</li>
+                <li>I try to embody stoicism to the best of my abilities.</li>
               </ul>
             </div>
           </Card>
