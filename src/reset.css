@@ -13,7 +13,7 @@ body {
     Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   color: var(--text);
   background: var(--bg);
-  overflow: hidden; /* no page scroll */
+  /* overflow: hidden;  */
 }
 
 /* DARK is default */
