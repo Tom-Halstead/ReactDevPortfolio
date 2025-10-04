@@ -22,28 +22,31 @@ export default function Tabs({ active, onChange }) {
   };
 
   return (
-    <nav className="tabs" role="tablist" aria-label="Sections">
-      {items.map(({ key, label }) => (
-        <button
-          key={key}
-          role="tab"
-          aria-selected={active === key}
-          aria-controls={`panel-${key}`}
-          id={`tab-${key}`}
-          className={active === key ? "tab is-active" : "tab"}
-          onClick={() => onChange(key)}
-          onMouseEnter={() => handleMouseEnter(key)}
-          onMouseLeave={() => handleMouseLeave(key)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              onChange(key);
-            }
-          }}
-        >
-          <span>{label}</span>
-          {active === key && <span className="indicator" aria-hidden />}
-        </button>
-      ))}
-    </nav>
+    <div className="tabs">
+      {/* Dock container */}
+      <nav className="tabs-inner" role="tablist" aria-label="Sections">
+        {items.map(({ key, label }) => (
+          <button
+            key={key}
+            role="tab"
+            aria-selected={active === key}
+            aria-controls={`panel-${key}`}
+            id={`tab-${key}`}
+            className={active === key ? "tab is-active" : "tab"}
+            onClick={() => onChange(key)}
+            onMouseEnter={() => handleMouseEnter(key)}
+            onMouseLeave={() => handleMouseLeave(key)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onChange(key);
+              }
+            }}
+          >
+            <span>{label}</span>
+            {active === key && <span className="indicator" aria-hidden />}
+          </button>
+        ))}
+      </nav>
+    </div>
   );
 }

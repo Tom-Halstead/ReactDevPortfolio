@@ -6,24 +6,42 @@ body {
   overflow-y: auto;
 }
 
-/* Keep header single-row; allow dropdown to escape header bounds */
+/* Full-width sticky header with dock styling */
 .bar {
-  height: 64px; /* fixed row prevents layout overlap */
+  height: 64px;
+  /* .bar is now just the full-bleed visual shell */
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border-bottom: 1px solid var(--outline);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  overflow: visible;
+  padding: 0; /* no side padding on the shell */
+}
+
+/* The real layout container */
+.bar-inner {
+  /* make it span the full viewport width so ends can be flush */
+  width: 100%;
+
+  /* grid that pins brand left and actions/menu right */
   display: grid;
   grid-template-columns: auto 1fr auto; /* brand | spacer | actions/menu */
   align-items: center;
   column-gap: 12px;
+
+  /* put your horizontal padding here */
   padding: 0 16px;
-  background: var(--header);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--outline);
-  position: sticky;
-  top: 0;
-  z-index: 2000; /* sit above content */
-  overflow: visible; /* IMPORTANT: let dropdown render outside header */
+
+  /* keep the header height consistent */
+  height: 64px;
 }
 
+/* Brand (left) */
 .brand {
   display: inline-flex;
   align-items: center;
@@ -34,25 +52,27 @@ body {
   white-space: nowrap;
   min-width: 0;
 }
-
 .dot {
   color: var(--accent);
 }
 
-/* Wide actions (>= 820px) */
-.actions {
+/* Actions (right, desktop) — pinned hard-right via grid */
+.actions,
+.actions-wide {
   display: inline-flex;
   gap: 8px;
-  justify-self: end;
+  justify-self: end; /* <-- keeps the group glued to the right edge */
 }
 
+/* Buttons */
 .ghost,
 .primary {
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid var(--outline);
   background: var(--panel);
-  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
   font-weight: 600;
   font-size: 13px;
   white-space: nowrap;
@@ -60,6 +80,8 @@ body {
 .ghost:hover {
   transform: translateY(-1px);
   border-color: var(--outline);
+  background: var(--panel-2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 .primary {
   border-color: var(--outline);
@@ -67,14 +89,15 @@ body {
 .primary:hover {
   background: var(--panel-2);
   transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
-/* Compact menu (< 820px) */
+/* Compact menu (right, mobile) — also pinned hard-right */
 .menu {
   position: relative;
-  justify-self: end;
+  justify-self: end; /* <-- right edge on mobile */
   display: none; /* shown at small widths */
-  z-index: 2100; /* above .bar contents */
+  z-index: 2100;
 }
 .menu-trigger {
   height: 34px;
@@ -86,25 +109,27 @@ body {
   color: var(--text);
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .menu-trigger:hover {
   transform: translateY(-1px);
   background: var(--panel-2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
-/* Dropdown panel; positioned relative to header but above other UI */
+/* Dropdown panel; positioned relative to .menu but aligned to the right padding */
 .menu-panel {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  right: 0; /* aligns with the right edge of .bar-inner padding */
   min-width: 200px;
   padding: 8px;
   border-radius: 12px;
   background: linear-gradient(180deg, var(--panel-2), var(--panel));
   border: 1px solid var(--outline);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
-  z-index: 2500; /* higher than tabs/content */
+  z-index: 2500;
   animation: menu-pop 0.14s ease both;
 }
 @keyframes menu-pop {
@@ -142,17 +167,20 @@ body {
 
 /* Breakpoints */
 @media (max-width: 820px) {
+  .bar {
+    height: 56px;
+  }
+  .bar-inner {
+    height: 56px;
+    padding: 0 12px;
+  }
+
   .actions-wide {
     display: none;
   } /* hide full actions */
   .menu {
     display: block;
   } /* show burger menu */
-
-  .bar {
-    height: 56px;
-    padding: 0 12px;
-  }
   .brand {
     font-size: 14px;
   }

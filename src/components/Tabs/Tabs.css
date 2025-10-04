@@ -1,17 +1,25 @@
+/* Full-width tabs bar with dock styling */
 .tabs {
   height: 56px;
   display: flex;
   gap: 6px;
   align-items: center;
   padding: 0 8px;
+
+  /* dock feel (full width) */
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border-top: 1px solid var(--outline);
   border-bottom: 1px solid var(--outline);
-  background: var(--panel);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */
 }
 .tabs::-webkit-scrollbar {
-  display: none; /* Chrome */
-}
+  display: none;
+} /* Chrome */
 
 .tab {
   position: relative;
@@ -23,7 +31,8 @@
   border: 1px solid transparent;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease, transform 0.08s ease;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.08s ease,
+    box-shadow 0.18s ease;
   font-size: 14px;
   flex-shrink: 0;
 }
@@ -31,6 +40,7 @@
 .tab:hover {
   color: var(--text);
   background: var(--panel-2);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
 }
 
 .tab:active {
@@ -40,8 +50,10 @@
 .tab.is-active {
   color: #0f1115;
   background: var(--accent);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--accent) 30%, transparent);
 }
 
+/* subtle glow below active tab */
 .indicator {
   position: absolute;
   left: 50%;
@@ -62,13 +74,11 @@
     height: 48px;
     gap: 4px;
   }
-
   .tab {
     padding: 0 10px;
     font-size: 13px;
     height: 34px;
   }
-
   .indicator {
     display: none;
   }

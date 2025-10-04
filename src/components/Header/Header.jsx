@@ -48,101 +48,104 @@ export default function Header() {
 
   return (
     <header className="bar" role="banner">
-      <div className="brand" aria-label="Site brand">
-        <span className="dot" aria-hidden>
-          ●
-        </span>
-        <strong>&#60;Tom-Halstead /&#62;</strong>
-      </div>
+      {/* Dock container */}
+      <div className="bar-inner">
+        <div className="brand" aria-label="Site brand">
+          <span className="dot" aria-hidden>
+            ●
+          </span>
+          <strong>&#60;Tom-Halstead /&#62;</strong>
+        </div>
 
-      {/* Desktop / wide actions */}
-      <div className="actions actions-wide" aria-label="Header actions">
-        <button
-          className="ghost"
-          onClick={toggle}
-          aria-label="Toggle color theme"
-        >
-          {theme === "light" ? "Dark" : "Light"} mode
-        </button>
-        <a
-          href="mailto:tom.michael.halstead@gmail.com"
-          className="ghost"
-          aria-label="Send email"
-        >
-          Email
-        </a>
-        <a
-          href="https://github.com/tom-halstead"
-          rel="noreferrer"
-          className="primary"
-          aria-label="GitHub profile"
-        >
-          GitHub
-        </a>
-        <a
-          href="https://www.linkedin.com/in/tomhalsteadeveloper/"
-          target="_blank"
-          rel="noreferrer"
-          className="primary"
-          aria-label="LinkedIn profile"
-        >
-          LinkedIn
-        </a>
-      </div>
+        {/* Desktop / wide actions */}
+        <div className="actions actions-wide" aria-label="Header actions">
+          <button
+            className="ghost"
+            onClick={toggle}
+            aria-label="Toggle color theme"
+          >
+            {theme === "light" ? "Dark" : "Light"} mode
+          </button>
+          <a
+            href="mailto:tom.michael.halstead@gmail.com"
+            className="ghost"
+            aria-label="Send email"
+          >
+            Email
+          </a>
+          <a
+            href="https://github.com/tom-halstead"
+            rel="noreferrer"
+            className="primary"
+            aria-label="GitHub profile"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/tomhalsteadeveloper/"
+            target="_blank"
+            rel="noreferrer"
+            className="primary"
+            aria-label="LinkedIn profile"
+          >
+            LinkedIn
+          </a>
+        </div>
 
-      {/* Compact menu on small screens */}
-      <div className="menu" ref={menuRef}>
-        <button
-          className="menu-trigger"
-          aria-haspopup="menu"
-          aria-expanded={open}
-          aria-label="Open header menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          ☰
-        </button>
-        {open && (
-          <div className="menu-panel" role="menu">
-            <button
-              className="menu-item"
-              role="menuitem"
-              onClick={() => {
-                toggle();
-                setOpen(false);
-              }}
-            >
-              {theme === "light" ? "Dark" : "Light"} mode
-            </button>
-            <a
-              className="menu-item"
-              role="menuitem"
-              href="mailto:tom.michael.halstead@gmail.com"
-              onClick={() => setOpen(false)}
-            >
-              Email
-            </a>
-            <a
-              className="menu-item"
-              role="menuitem"
-              href="https://github.com/tom-halstead"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setOpen(false)}
-            >
-              GitHub
-            </a>
-            <a
-              className="menu-item"
-              role="menuitem"
-              href="https://www.linkedin.com/in/tomhalsteadeveloper/"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setOpen(false)}
-            >
-              LinkedIn
-            </a>
-          </div>
-        )}
+        {/* Compact menu on small screens */}
+        <div className="menu" ref={menuRef}>
+          <button
+            className="menu-trigger"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            aria-label="Open header menu"
+            onClick={() => setOpen((v) => !v)}
+          >
+            ☰
+          </button>
+          {open && (
+            <div className="menu-panel" role="menu">
+              <button
+                className="menu-item"
+                role="menuitem"
+                onClick={() => {
+                  toggle();
+                  setOpen(false);
+                }}
+              >
+                {theme === "light" ? "Dark" : "Light"} mode
+              </button>
+              <a
+                className="menu-item"
+                role="menuitem"
+                href="mailto:tom.michael.halstead@gmail.com"
+                onClick={() => setOpen(false)}
+              >
+                Email
+              </a>
+              <a
+                className="menu-item"
+                role="menuitem"
+                href="https://github.com/tom-halstead"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+              >
+                GitHub
+              </a>
+              <a
+                className="menu-item"
+                role="menuitem"
+                href="https://www.linkedin.com/in/tomhalsteadeveloper/"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+              >
+                LinkedIn
+              </a>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="footer" role="contentinfo">
       <div className="footer-inner">
-        {/* LEFT SIDE */}
+        {/* LEFT COLUMN */}
         <div className="footer-left">
           <span className="brand">
             <span className="dot">●</span>
@@ -44,20 +44,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* CENTER DIVIDER */}
-        <div className="footer-divider" aria-hidden="true"></div>
-
-        {/* RIGHT SIDE */}
-        <div className="footer-right">
-          <a
-            href="mailto:tom.michael.halstead@gmail.com"
-            className="contact-link"
-          >
-            tom.michael.halstead@gmail.com
-          </a>
-          <span className="contact-location">📍 United States</span>
-
-          {/* Resume / Certifications Links */}
+        {/* CENTER COLUMN */}
+        <div className="footer-center">
           <div className="footer-actions">
             <a
               href="/resume.pdf"
@@ -107,6 +95,17 @@ export default function Footer() {
               Certifications
             </a>
           </div>
+        </div>
+
+        {/* RIGHT COLUMN */}
+        <div className="footer-right">
+          <a
+            href="mailto:tom.michael.halstead@gmail.com"
+            className="contact-link"
+          >
+            tom.michael.halstead@gmail.com
+          </a>
+          <span className="contact-location">📍 United States</span>
         </div>
       </div>
     </footer>
