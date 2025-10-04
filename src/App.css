@@ -1,20 +1,24 @@
 .app-shell{
   height: 100vh;
   display: grid;
-  grid-template-rows: 64px 56px 1fr; /* header, tabs, content */
+  grid-template-rows: 64px 56px 1fr 48px; /* header, tabs, content, footer */
   background: var(--bg);
 }
-
+@media (max-width: 640px){
+  .app-shell{ grid-template-rows: 56px 48px 1fr 48px; }
+}
 .viewport{
-  overflow: hidden; /* keep page non-scrollable */
-  padding: 24px;
+  overflow: hidden;
+  padding: clamp(12px, 3vw, 24px);
   display: grid;
   place-items: center;
 }
-
 .panel{
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--outline);
   box-shadow: var(--shadow);
   border-radius: 18px;
+}
+@media (max-width: 480px){
+  .panel{ border-radius: 14px; }
 }

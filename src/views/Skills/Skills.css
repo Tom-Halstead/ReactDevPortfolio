@@ -1,21 +1,57 @@
 .view{
   width: min(1100px, 92vw);
-  height: min(560px, calc(100vh - 64px - 56px - 48px));
-  padding: 28px;
+  height: min(560px, calc(100vh - 64px - 56px - 48px - 24px));
+  padding: clamp(16px, 3vw, 28px);
   display: grid;
   place-items: center;
   text-align: center;
 }
-.title{ font-size: clamp(28px, 4vw, 44px); margin: 0 0 10px; }
-.subtitle{ color: var(--muted); margin: 0; }
-.grid{ display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); width:100%;}
-.card{
-  background: #181b27;
+.skills-wrap{ width:100%; }
+.title{ font-size: clamp(28px, 4vw, 44px); margin: 0 0 8px; }
+.subtitle{ color: var(--muted); margin: 0 0 16px; font-size: clamp(13px, 1.8vw, 15px); }
+
+.skill-tabs{
+  display:flex; gap: 8px; flex-wrap: wrap; justify-content:center;
+  padding: 8px;
+  background: #141722;
   border: 1px solid var(--outline);
   border-radius: 14px;
-  padding: 16px;
-  text-align: left;
-  transition: transform .12s ease, background .2s ease, border-color .2s ease;
+  margin-bottom: 16px;
 }
-.card:hover{ transform: translateY(-2px); background:#1f2332; border-color:#363a4a; }
-
+.skill-tab{
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+  cursor:pointer;
+  transition: background .15s ease, color .15s ease, transform .08s ease;
+  font-size: 14px;
+}
+.skill-tab:hover{ color: #fff; background:#1a1e2a; }
+.skill-tab.is-active{ color: #0f1115; background: var(--accent); }
+.skill-panel{
+  background: #151a25;
+  border: 1px solid var(--outline);
+  border-radius: 14px;
+  padding: clamp(12px, 2.5vw, 20px);
+}
+.pill-list{
+  display:flex; flex-wrap:wrap; gap: 10px; justify-content:center; padding:0; margin:0;
+  list-style:none;
+}
+.pill{
+  padding: 8px 12px;
+  border: 1px solid #2f3342;
+  background: #1a1f2e;
+  border-radius: 999px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.pill:hover{ transform: translateY(-1px); background:#20263a; border-color:#3a3f52; }
+@media (max-width: 640px){
+  .view{ height: min(520px, calc(100vh - 56px - 48px - 44px - 20px)); }
+  .skill-tab{ font-size: 13px; padding: 8px 12px; }
+  .pill{ font-size: 12px; }
+}

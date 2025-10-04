@@ -1,0 +1,16 @@
+.footer{
+  height: 48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-top: 1px solid var(--outline);
+  background: #0f1115;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 0 12px;
+}
+.wrap{ display:flex; gap:10px; align-items:center; opacity:.9; }
+.sep{ opacity:.6; }
+@media (max-width: 480px){
+  .footer{ height: 44px; font-size: 12px; }
+}
