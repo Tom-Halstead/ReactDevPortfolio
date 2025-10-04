@@ -28,6 +28,7 @@
 .ghost:hover{ transform: translateY(-1px); border-color:#363a4a; }
 .primary{ border-color: #363a4a; }
 .primary:hover{ background: var(--panel-2); transform: translateY(-1px); }
+
 @media (max-width: 640px){
   .bar{ height:56px; }
   .actions .ghost{ display:none; }

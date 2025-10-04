@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './Skills.css'
 
+// Derived from your previous chats & project context
 const DATA = {
   Frontend: [
     'React', 'Vite', 'HTML', 'CSS', 'JavaScript', 'TypeScript (learning)',

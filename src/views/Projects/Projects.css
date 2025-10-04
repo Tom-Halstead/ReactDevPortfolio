@@ -8,16 +8,7 @@
 }
 .title{ font-size: clamp(28px, 4vw, 44px); margin: 0 0 10px; }
 .subtitle{ color: var(--muted); margin: 0; }
-.grid{ display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); width:100%;}
-.card{
-  background: #181b27;
-  border: 1px solid var(--outline);
-  border-radius: 14px;
-  padding: clamp(12px, 2vw, 16px);
-  text-align: left;
-  transition: transform .12s ease, background .2s ease, border-color .2s ease;
-}
-.card:hover{ transform: translateY(-2px); background:#1f2332; border-color:#363a4a; }
+.grid{ display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); width:100%;}
 @media (max-width: 640px){
   .view{ height: min(520px, calc(100vh - 56px - 48px - 44px - 20px)); }
 }

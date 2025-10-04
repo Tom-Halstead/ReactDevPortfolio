@@ -31,12 +31,14 @@
 }
 .skill-tab:hover{ color: #fff; background:#1a1e2a; }
 .skill-tab.is-active{ color: #0f1115; background: var(--accent); }
+
 .skill-panel{
   background: #151a25;
   border: 1px solid var(--outline);
   border-radius: 14px;
   padding: clamp(12px, 2.5vw, 20px);
 }
+
 .pill-list{
   display:flex; flex-wrap:wrap; gap: 10px; justify-content:center; padding:0; margin:0;
   list-style:none;
@@ -50,6 +52,7 @@
   white-space: nowrap;
 }
 .pill:hover{ transform: translateY(-1px); background:#20263a; border-color:#3a3f52; }
+
 @media (max-width: 640px){
   .view{ height: min(520px, calc(100vh - 56px - 48px - 44px - 20px)); }
   .skill-tab{ font-size: 13px; padding: 8px 12px; }
