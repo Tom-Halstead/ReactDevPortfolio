@@ -8,6 +8,19 @@ const items = [
 ];
 
 export default function Tabs({ active, onChange }) {
+  const hoverTimers = React.useRef({});
+
+  const handleMouseEnter = (key) => {
+    hoverTimers.current[key] = setTimeout(() => {
+      onChange(key);
+    }, 500);
+  };
+
+  const handleMouseLeave = (key) => {
+    clearTimeout(hoverTimers.current[key]);
+    delete hoverTimers.current[key];
+  };
+
   return (
     <nav className="tabs" role="tablist" aria-label="Sections">
       {items.map(({ key, label }) => (
@@ -19,6 +32,8 @@ export default function Tabs({ active, onChange }) {
           id={`tab-${key}`}
           className={active === key ? "tab is-active" : "tab"}
           onClick={() => onChange(key)}
+          onMouseEnter={() => handleMouseEnter(key)}
+          onMouseLeave={() => handleMouseLeave(key)}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               onChange(key);

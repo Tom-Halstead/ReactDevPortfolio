@@ -5,7 +5,7 @@ import "./Home.css";
 export default function Home() {
   const [showPreview, setShowPreview] = React.useState(false);
 
-  // Close on ESC
+  // Close preview on ESC key
   React.useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") setShowPreview(false);
@@ -14,7 +14,6 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, [showPreview]);
 
-  const openPreview = () => setShowPreview(true);
   const closePreview = () => setShowPreview(false);
 
   return (
@@ -37,19 +36,22 @@ export default function Home() {
 
           {/* Green status card */}
           <Card className="status-card home-card">
-            <div className="dot dot-invert" aria-hidden="true">
-              ●
-            </div>
-            <strong className="card-title">Status</strong>
+            <strong className="card-title">
+              <span className="dot dot-invert" aria-hidden="true">
+                ●
+              </span>
+              Status
+            </strong>
             <p className="card-text strong">Open to roles</p>
           </Card>
         </header>
 
-        {/* Right: avatar */}
-        <div
+        {/* Right: avatar (click to open; hover only hints) */}
+        <button
+          type="button"
           className="avatar-wrap"
-          onMouseEnter={openPreview}
           onClick={() => setShowPreview((v) => !v)} /* tap/click support */
+          aria-label="Expand portrait"
         >
           <span className="ring" />
           <img
@@ -61,7 +63,7 @@ export default function Home() {
             loading="eager"
           />
           <span className="glow" />
-        </div>
+        </button>
       </div>
 
       {/* Fullscreen overlay preview */}

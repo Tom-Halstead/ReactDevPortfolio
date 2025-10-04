@@ -23,18 +23,14 @@ const DATA = {
       label: "Responsive Layouts",
       file: "responsive-icon.png",
     },
-    // { key: "", label: "Accessibility (ARIA basics)" },
   ],
 
   Backend: [
     { key: "java", label: "Java", file: "java-icon.png" },
     { key: "spring", label: "Spring Boot", file: "springboot-icon.png" },
-    { key: "spring", label: "Spring Security", file: "springboot-icon.png" },
     { key: "node", label: "Node.JS", file: "node-icon.png" },
-    // { key: "hibernate", label: "JPA / Hibernate" },
     { key: "postgresql", label: "PostgreSQL", file: "sql-icon.png" },
-    // { key: "", label: "JDBC / JdbcTemplate" },
-    { key: "restful", label: "REST APIs", file: "resfulApi-icon.png" }, // your exact filename
+    { key: "restful", label: "REST APIs", file: "resfulApi-icon.png" }, // check spelling
     { key: "jwt", label: "JWT", file: "jwt-icon.png" },
     { key: "aws", label: "AWS", file: "aws-icon.png" },
     {
@@ -51,22 +47,19 @@ const DATA = {
     { key: "docker", label: "Docker", file: "docker-icon.png" },
     { key: "nodejs", label: "Node.js", file: "node-icon.png" },
     { key: "npm", label: "npm", file: "npm-icon.png" },
-    // { key: "gradle", label: "Gradle" },
-    // { key: "maven", label: "Maven" },
     { key: "postman", label: "Postman", file: "postman-icon.png" },
     { key: "curl", label: "cURL", file: "curl-icon.png" },
-    // { key: "intellij", label: "IntelliJ IDEA" },
   ],
 
   Concepts: [
-    { key: "", label: "API Integrations" },
-    { key: "", label: "User Authentication & Authorization" },
-    { key: "", label: "Token-based Auth (JWT, OAuth2)" },
-    { key: "", label: "DTO Mapping & Validation" },
-    { key: "", label: "Cloud Deployment (AWS basics)" },
-    { key: "", label: "Database Modeling & SQL" },
-    { key: "", label: "Testing Strategy" },
-    { key: "", label: "Clean Architecture Principles" },
+    { key: "concept-1", label: "API Integrations" },
+    { key: "concept-2", label: "User Authentication & Authorization" },
+    { key: "concept-3", label: "Token-based Auth (JWT, OAuth2/OIDC)" },
+    { key: "concept-4", label: "DTO Mapping & Validation" },
+    { key: "concept-5", label: "Cloud Deployment (AWS basics)" },
+    { key: "concept-6", label: "Database Modeling & SQL" },
+    { key: "concept-7", label: "Testing Strategy" },
+    { key: "concept-8", label: "Clean Architecture Principles" },
   ],
 };
 
@@ -155,9 +148,15 @@ export default function Skills() {
         <div className="skill-panel" role="region" aria-live="polite">
           <ul className="pill-list">
             {DATA[active].map((item) => (
-              <li key={item.label} className="pill">
+              <li key={item.key} className="pill">
                 <div className="pill-title">{item.label}</div>
-                <Logo item={item} />
+                {/* Only render Logo if there’s a valid image */}
+                {item.file ||
+                (item.key &&
+                  item.key !== "" &&
+                  !item.key.startsWith("concept")) ? (
+                  <Logo item={item} />
+                ) : null}
               </li>
             ))}
           </ul>

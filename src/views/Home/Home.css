@@ -8,7 +8,7 @@
   text-align: center;
 }
 
-/* Split layout: text + portrait (no overflow) */
+/* Split layout: text + portrait */
 .home-split {
   width: 100%;
   height: 100%;
@@ -42,7 +42,7 @@
   line-height: 1.5;
 }
 
-/* Card (site look, refined padding) */
+/* Card (refined padding) */
 .home-card {
   position: relative;
   display: grid;
@@ -65,12 +65,17 @@
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
+/* Align dot + title on same line */
 .card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: clamp(15px, 1.5vw, 17px);
   color: var(--text);
   letter-spacing: 0.2px;
   margin: 0 0 2px;
 }
+
 .card-text {
   margin: 0;
   color: var(--muted);
@@ -82,19 +87,17 @@
   color: #0f1115;
 }
 
-/* Accent dot */
+/* Dot */
 .dot {
-  color: var(--accent);
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1;
-  translate: 0 1px;
-  margin-bottom: 2px;
+  color: var(--accent);
 }
 .dot-invert {
   color: #0f1115;
 }
 
-/* GREEN highlight */
+/* Green status card */
 .status-card {
   background: var(--accent) !important;
   border-color: color-mix(in oklab, var(--accent) 70%, var(--outline));
@@ -111,7 +114,69 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
 }
 
-/* Avatar block (right) */
+/* --- Enhanced wave underline for Open to roles (fixed) --- */
+.status-card .card-text {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  color: #0f1115;
+  font-size: clamp(13px, 1.2vw, 14px);
+  overflow: visible; /* FIX: allow underline to render */
+}
+
+.status-card .card-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; /* FIX: sit on baseline, not below it */
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(15, 17, 21, 0) 35%,
+    rgba(15, 17, 21, 0.7) 45%,
+    #0f1115 50%,
+    rgba(15, 17, 21, 0.7) 55%,
+    rgba(15, 17, 21, 0) 65%,
+    transparent 100%
+  );
+  transform: translateX(-105%); /* start fully off-left */
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.status-card:hover .card-text::after {
+  animation: wave-underline 1.1s ease-out forwards; /* plays once per hover */
+}
+
+@keyframes wave-underline {
+  0% {
+    transform: translateX(-105%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(105%);
+    opacity: 0;
+  }
+}
+
+.status-card:hover .card-text::after {
+  animation: wave-underline 1.1s ease-out infinite;
+}
+
+/* Avatar block (right) — CLICK to open, HOVER just hints */
 .avatar-wrap {
   position: relative;
   justify-self: center;
@@ -128,16 +193,21 @@
   border: 1px solid var(--outline);
   box-shadow: var(--shadow);
   overflow: hidden;
-  cursor: zoom-in; /* hint */
+  cursor: zoom-in;
+  /* make it a proper button without default look */
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border-width: 1px;
 }
 .avatar {
   width: 86%;
   height: 86%;
   object-fit: cover;
-  /* Focal point a bit lower so neck/torso shows more */
   object-position: 50% 95%;
   border-radius: 50%;
   filter: contrast(1.02) saturate(1.02);
+  transition: transform 180ms ease, filter 180ms ease;
 }
 .ring {
   position: absolute;
@@ -145,6 +215,7 @@
   border-radius: 50%;
   border: 2px solid color-mix(in oklab, var(--accent) 65%, transparent);
   box-shadow: inset 0 0 24px color-mix(in oklab, var(--accent) 30%, transparent);
+  transition: box-shadow 200ms ease, border-color 200ms ease;
 }
 .glow {
   position: absolute;
@@ -162,13 +233,45 @@
     );
   opacity: 0.35;
   pointer-events: none;
+  transition: opacity 180ms ease;
 }
 
-/* ======= FULLSCREEN PREVIEW OVERLAY ======= */
+/* Hover hint: subtle scale + ripple ring + “Click to expand” label */
+.avatar-wrap:hover .avatar {
+  transform: scale(0.96) translateY(-1px);
+  filter: contrast(1.04) saturate(1.05);
+}
+.avatar-wrap:hover .ring {
+  border-color: color-mix(in oklab, var(--accent) 78%, transparent);
+  box-shadow: inset 0 0 26px color-mix(in oklab, var(--accent) 36%, transparent),
+    0 0 30px color-mix(in oklab, var(--accent) 28%, transparent);
+}
+.avatar-wrap::after {
+  content: "Click to expand";
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translate(-50%, 4px);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #0f1115;
+  background: var(--accent);
+  border: 1px solid color-mix(in oklab, var(--accent) 60%, var(--outline));
+  opacity: 0;
+  transition: transform 180ms ease, opacity 180ms ease;
+  pointer-events: none;
+}
+.avatar-wrap:hover::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Fullscreen avatar preview */
 .avatar-overlay {
   position: fixed;
   inset: 0;
-  z-index: 60; /* above header/tabs */
+  z-index: 60;
   background: linear-gradient(180deg, rgba(4, 6, 10, 0.6), rgba(4, 6, 10, 0.7)),
     radial-gradient(
       80% 120% at 50% -10%,
@@ -216,7 +319,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* show full image */
+  object-fit: contain;
   background: var(--panel-2);
 }
 
@@ -244,6 +347,20 @@
 }
 .avatar-close:active {
   transform: translateY(0);
+}
+
+/* Reduced motion: respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .home-card,
+  .avatar,
+  .ring,
+  .glow,
+  .avatar-wrap::after,
+  .avatar-overlay,
+  .avatar-dialog {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 /* Responsiveness */

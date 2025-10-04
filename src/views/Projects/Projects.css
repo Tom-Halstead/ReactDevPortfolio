@@ -2,17 +2,13 @@
 .view {
   width: min(1100px, 92vw);
   height: min(560px, calc(100vh - 64px - 56px - 48px - 24px));
-  padding: clamp(
-    16px,
-    3vw,
-    24px
-  ); /* a bit tighter to avoid vertical overflow */
+  padding: clamp(16px, 3vw, 24px);
   display: grid;
   place-items: center;
   text-align: center;
 }
 
-/* Internal wrapper: reserve space for title/subtitle, grid fills the rest */
+/* Wrapper reserves space for headings, grid fills the rest */
 .projects-wrap {
   width: 100%;
   height: 100%;
@@ -31,7 +27,7 @@
   margin: 0 0 6px;
 }
 
-/* Grid fills remaining height, prevents overflow */
+/* Grid fills remaining height; allow overflow for flyouts */
 .grid {
   width: 100%;
   height: 100%;
@@ -40,19 +36,19 @@
 
 .projects-grid {
   gap: clamp(10px, 1.8vw, 16px);
-  /* 2 columns by default; auto rows equal height */
   grid-template-columns: repeat(2, minmax(240px, 1fr));
   grid-auto-rows: 1fr;
   align-items: stretch;
   justify-items: stretch;
-  overflow: hidden; /* guard against hover lift */
+  overflow: visible; /* critical: prevent hover cut-off */
+  position: relative;
 }
 
 /* ===== Card ===== */
 .project-card {
   position: relative;
   display: grid;
-  grid-template-rows: auto 1fr auto auto; /* head, blurb flex area, stack, cta */
+  grid-template-rows: auto 1fr auto auto; /* head, blurb, stack, cta */
   gap: 8px;
   padding: clamp(12px, 2vw, 16px);
   border-radius: 16px;
@@ -60,11 +56,12 @@
   border: 1px solid var(--outline);
   box-shadow: var(--shadow);
   text-align: left;
-  overflow: clip;
+  overflow: visible; /* flyout extends past card */
   isolation: isolate;
-  min-height: 0; /* allow children to shrink */
+  min-height: 0;
   transition: transform 0.16s ease, border-color 0.2s ease, background 0.2s ease,
     box-shadow 0.3s ease;
+  z-index: 1; /* sits above grid for layering */
 }
 .project-card:hover {
   transform: translateY(-2px);
@@ -72,7 +69,23 @@
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
-/* Accent glow kept subtle (and within card bounds thanks to overflow:clip) */
+/* --- HOVER BRIDGE --- */
+.project-card.side-right::after,
+.project-card.side-left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 16px;
+  height: 100%;
+}
+.project-card.side-right::after {
+  left: 100%;
+}
+.project-card.side-left::before {
+  right: 100%;
+}
+
+/* Accent glow (subtle) */
 .project-card .glow {
   position: absolute;
   inset: -2px;
@@ -97,7 +110,6 @@
   transform: scale(1.01);
 }
 
-/* Head */
 .project-head {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -118,7 +130,6 @@
   letter-spacing: 0.2px;
 }
 
-/* Blurb: clamp lines to avoid stretching card */
 .project-blurb {
   margin: 2px 0 0 0;
   color: var(--muted);
@@ -126,11 +137,11 @@
   line-height: 1.4;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* show up to 3 lines */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
-/* Stack row stays near bottom; wraps as needed */
+/* Stack row */
 .stack-row {
   display: flex;
   flex-wrap: wrap;
@@ -179,6 +190,8 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Green pill */
 .cta-pill {
   font-size: 12px;
   font-weight: 700;
@@ -189,7 +202,166 @@
   border: 1px solid color-mix(in oklab, var(--accent) 60%, var(--outline));
 }
 
-/* ===== Responsive rules ===== */
+/* Make CTA a button without nuking .cta-pill styles */
+.cta-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.cta-btn:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent) 60%, var(--outline));
+  outline-offset: 2px;
+}
+
+/* ===== Side Flyout (details) ===== */
+.flyout {
+  position: absolute;
+  top: 8px;
+  width: clamp(220px, 36vw, 320px);
+  max-height: calc(100% - 16px);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.flyout-inner {
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--outline);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  padding: 12px 14px;
+}
+
+.flyout-title {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 700;
+}
+.flyout-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Position with NO visual gap (hover bridge covers the gap) */
+.project-card.side-left .flyout {
+  right: 100%;
+}
+.project-card.side-right .flyout {
+  left: 100%;
+}
+
+/* Stay visible on card OR flyout hover/focus */
+.project-card:hover .flyout,
+.project-card:focus-within .flyout,
+.flyout:hover {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Button inside flyout */
+.live-preview-btn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--accent) 60%, var(--outline));
+  background: var(--accent);
+  color: #0f1115;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.live-preview-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* ===== Fullscreen Preview Overlay ===== */
+.preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, rgba(4, 6, 10, 0.7), rgba(4, 6, 10, 0.85)),
+    radial-gradient(
+      80% 120% at 50% -10%,
+      rgba(16, 22, 34, 0.6),
+      transparent 70%
+    );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: overlay-fade 0.18s ease forwards;
+}
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.preview-dialog {
+  position: relative;
+  width: min(92vw, 1000px);
+  height: min(85vh, 720px);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--outline);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  animation: dialog-pop 0.16s ease forwards;
+}
+@keyframes dialog-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.preview-frame-large {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: var(--panel-2);
+}
+
+.preview-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  height: 34px;
+  width: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--outline);
+  background: var(--panel-2);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 0.08s ease, background 0.15s ease,
+    border-color 0.15s ease;
+}
+.preview-close:hover {
+  transform: translateY(-1px);
+}
+.preview-close:active {
+  transform: translateY(0);
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 1024px) {
   .projects-grid {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
@@ -203,8 +375,26 @@
   .projects-grid {
     grid-template-columns: 1fr;
   }
-  .project-blurb {
-    -webkit-line-clamp: 4;
+
+  /* Flyout becomes a bottom sheet */
+  .project-card.side-left .flyout,
+  .project-card.side-right .flyout {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    max-height: none;
+    margin-top: 8px;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+  }
+
+  .preview-dialog {
+    width: min(96vw, 1000px);
+    height: min(88vh, 720px);
   }
 }
 

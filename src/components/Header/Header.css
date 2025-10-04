@@ -1,40 +1,61 @@
-.bar {
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 16px;
-  background: var(--header); /* was hardcoded */
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--outline);
+/* Ensure page scrolls on mobile */
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
+/* Keep header single-row; allow dropdown to escape header bounds */
+.bar {
+  height: 64px; /* fixed row prevents layout overlap */
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* brand | spacer | actions/menu */
+  align-items: center;
+  column-gap: 12px;
+  padding: 0 16px;
+  background: var(--header);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--outline);
+  position: sticky;
+  top: 0;
+  z-index: 2000; /* sit above content */
+  overflow: visible; /* IMPORTANT: let dropdown render outside header */
+}
+
 .brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
   font-weight: 700;
   letter-spacing: 0.4px;
-  font-size: 14px;
+  font-size: 15px;
+  white-space: nowrap;
+  min-width: 0;
 }
+
 .dot {
   color: var(--accent);
 }
-.spacer {
-  flex: 1;
-}
+
+/* Wide actions (>= 820px) */
 .actions {
-  display: flex;
+  display: inline-flex;
   gap: 8px;
+  justify-self: end;
 }
+
 .ghost,
 .primary {
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid var(--outline);
-  background: var(--panel); /* was hardcoded */
+  background: var(--panel);
   transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
   font-weight: 600;
   font-size: 13px;
+  white-space: nowrap;
 }
 .ghost:hover {
   transform: translateY(-1px);
@@ -48,8 +69,100 @@
   transform: translateY(-1px);
 }
 
-@media (max-width: 640px) {
+/* Compact menu (< 820px) */
+.menu {
+  position: relative;
+  justify-self: end;
+  display: none; /* shown at small widths */
+  z-index: 2100; /* above .bar contents */
+}
+.menu-trigger {
+  height: 34px;
+  min-width: 34px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--outline);
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.menu-trigger:hover {
+  transform: translateY(-1px);
+  background: var(--panel-2);
+}
+
+/* Dropdown panel; positioned relative to header but above other UI */
+.menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  padding: 8px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--outline);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+  z-index: 2500; /* higher than tabs/content */
+  animation: menu-pop 0.14s ease both;
+}
+@keyframes menu-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 9px 10px;
+  margin: 2px 0;
+  text-align: left;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.08s ease;
+}
+.menu-item:hover {
+  background: var(--panel-2);
+  border-color: var(--outline);
+  transform: translateY(-1px);
+}
+
+/* Breakpoints */
+@media (max-width: 820px) {
+  .actions-wide {
+    display: none;
+  } /* hide full actions */
+  .menu {
+    display: block;
+  } /* show burger menu */
+
   .bar {
     height: 56px;
+    padding: 0 12px;
+  }
+  .brand {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ghost,
+  .primary,
+  .menu-trigger,
+  .menu-item {
+    transition: none !important;
   }
 }
