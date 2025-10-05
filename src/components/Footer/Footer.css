@@ -148,6 +148,28 @@
   z-index: 0;
 }
 
+/* ensure button chips look like link chips */
+/* .link-chip-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none; 
+  background: none; 
+  font: inherit;
+  color: inherit;
+  padding: 0; 
+} */
+
+/* … keep all your existing styles … */
+
+/* Add this small reset so buttons inherit the exact chip styling */
+.link-chip-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  /* keep the cursor, padding, border, bg, etc. from .link-chip */
+}
+
 .link-chip::after {
   content: "";
   position: absolute;

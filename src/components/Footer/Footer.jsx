@@ -1,23 +1,36 @@
-// src/footer/Footer.jsx
 import React from "react";
 import "./Footer.css";
 import ResumeModal from "./Resume/ResumeModal.jsx";
-import { usePdfPrefetch } from "../../js/usePdfPrefetch.js";
+import CertsModal from "./Certs/CertsModal.jsx";
+import { usePdfPrefetch, prefetchPdfList } from "../../js/usePdfPrefetch";
 
-// Your PDF lives in public/certs/
 const RESUME_PATH = "/certs/2025%20SDE%20Resume%20PDF.pdf";
+const CERT_ITEMS = [
+  {
+    id: "tech-elevator",
+    label: "Tech Elevator",
+    src: "/certs/Tech%20Elevator%20Certificate.pdf",
+  },
+  { id: "udemy", label: "Udemy", src: "/certs/Udemy%20Certificate.pdf" },
+];
 
 export default function Footer() {
   const [resumeOpen, setResumeOpen] = React.useState(false);
+  const [certsOpen, setCertsOpen] = React.useState(false);
 
-  // Prefetch on user intent (hover/focus) for a snappy feel.
-  const { prefetch: prefetchResume } = usePdfPrefetch(RESUME_PATH);
+  // Prefetch résumé PDF (hover/focus)
+  const resumePref = usePdfPrefetch(RESUME_PATH);
+
+  // Warm all certs on hover/focus (no hooks-in-loop; single function)
+  const prefetchCerts = React.useCallback(() => {
+    prefetchPdfList(CERT_ITEMS.map((c) => c.src));
+  }, []);
 
   return (
     <>
       <footer className="footer" role="contentinfo">
         <div className="footer-inner">
-          {/* LEFT COLUMN */}
+          {/* LEFT */}
           <div className="footer-left">
             <span className="brand">
               <span className="dot">●</span>
@@ -56,18 +69,18 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* CENTER COLUMN */}
+          {/* CENTER */}
           <div className="footer-center">
             <div className="footer-actions">
-              {/* Open résumé in modal */}
+              {/* Résumé modal trigger — styled like the original link */}
               <button
                 type="button"
                 className="link-chip link-chip-btn"
-                onMouseEnter={prefetchResume}
-                onFocus={prefetchResume}
-                onClick={() => setResumeOpen(true)}
                 aria-haspopup="dialog"
                 aria-controls="resume-dialog"
+                onClick={() => setResumeOpen(true)}
+                onMouseEnter={resumePref.prefetch}
+                onFocus={resumePref.prefetch}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -87,11 +100,15 @@ export default function Footer() {
                 Résumé
               </button>
 
-              <a
-                href="/certifications"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-chip"
+              {/* Certifications modal trigger — same chip styling */}
+              <button
+                type="button"
+                className="link-chip link-chip-btn"
+                aria-haspopup="dialog"
+                aria-controls="certs-dialog"
+                onClick={() => setCertsOpen(true)}
+                onMouseEnter={prefetchCerts}
+                onFocus={prefetchCerts}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -109,11 +126,11 @@ export default function Footer() {
                   <path d="M8 14v7l4-2 4 2v-7" />
                 </svg>
                 Certifications
-              </a>
+              </button>
             </div>
           </div>
 
-          {/* RIGHT COLUMN */}
+          {/* RIGHT */}
           <div className="footer-right">
             <a
               href="mailto:tom.michael.halstead@gmail.com"
@@ -126,11 +143,16 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Modal outside footer for z-index clarity */}
+      {/* Modals */}
       <ResumeModal
         open={resumeOpen}
         onClose={() => setResumeOpen(false)}
         src={RESUME_PATH}
+      />
+      <CertsModal
+        open={certsOpen}
+        onClose={() => setCertsOpen(false)}
+        items={CERT_ITEMS}
       />
     </>
   );

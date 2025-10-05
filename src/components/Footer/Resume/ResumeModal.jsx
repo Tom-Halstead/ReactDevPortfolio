@@ -1,4 +1,3 @@
-// src/footer/Resume/ResumeModal.jsx
 import React from "react";
 import "./ResumeModal.css";
 import { usePdfPrefetch } from "../../../js/usePdfPrefetch";
@@ -14,9 +13,6 @@ import { usePdfPrefetch } from "../../../js/usePdfPrefetch";
  *  - src: string (path to the PDF in /public)
  */
 export default function ResumeModal({ open, onClose, src }) {
-  // Prefetch hook: if a Blob URL is in cache, use it instantly.
-  const { blobUrl } = usePdfPrefetch(src);
-
   // Close on Escape
   React.useEffect(() => {
     if (!open) return;
@@ -25,10 +21,10 @@ export default function ResumeModal({ open, onClose, src }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  if (!open) return null;
+  // Prefetch when opened (or earlier via Footer hover)
+  const { blobUrl } = usePdfPrefetch(src, { eager: open });
 
-  // Prefer the prefetched Blob URL, fall back to direct URL.
-  const iframeSrc = `${blobUrl || src}#toolbar=1&navpanes=0&view=FitH`;
+  if (!open) return null;
 
   return (
     <div
@@ -39,10 +35,10 @@ export default function ResumeModal({ open, onClose, src }) {
       onClick={onClose}
     >
       <div
+        id="resume-dialog"
         className="resume-dialog"
         role="document"
         onClick={(e) => e.stopPropagation()}
-        id="resume-dialog"
       >
         <button
           type="button"
@@ -55,7 +51,7 @@ export default function ResumeModal({ open, onClose, src }) {
 
         <iframe
           className="resume-frame"
-          src={iframeSrc}
+          src={`${(blobUrl || src) ?? ""}#toolbar=1&navpanes=0&view=FitH`}
           title="Résumé"
           loading="eager"
         />
