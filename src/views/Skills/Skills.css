@@ -1,15 +1,14 @@
-/* ===== Skills (scoped) ===== */
+/* ===== Skills (scoped, 90% scale + enhanced styling) ===== */
 
-/* Container of the "view" inside .viewport */
+/* Container */
 #panel-skills.view {
-  width: min(1100px, 92vw);
-  /* replaced fixed height cap with flexible sizing so it doesn't clip */
+  width: min(891px, 82.8vw); /* 990 -> 891 */
   height: auto;
-  min-height: 0; /* important inside grid to avoid extra stretch */
-  padding: clamp(16px, 3vw, 28px);
+  min-height: 0;
+  padding: clamp(13px, 2.7vw, 22.7px); /* 14.4..25.2 -> 13..22.7 */
   display: grid;
-  align-content: start; /* start from the top to avoid vertical clipping */
-  justify-items: center; /* keep content centered horizontally */
+  align-content: start;
+  justify-items: center;
   text-align: center;
 }
 
@@ -18,68 +17,88 @@
 }
 
 #panel-skills .title {
-  font-size: clamp(28px, 4vw, 44px);
-  margin: 0 0 8px;
+  font-size: clamp(22.7px, 3.6vw, 35.6px);
+  margin: 0 0 6.5px;
 }
 
 #panel-skills .subtitle {
   color: var(--muted);
-  margin: 0 0 16px;
-  font-size: clamp(13px, 1.8vw, 15px);
+  margin: 0 0 13px;
+  font-size: clamp(10.5px, 1.6vw, 12.1px);
 }
 
 /* Tabs */
 #panel-skills .skill-tabs {
   display: flex;
-  gap: 8px;
+  gap: 6.5px;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 8px;
-  background: var(--panel);
+  padding: 6.5px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
   border: 1px solid var(--outline);
-  border-radius: 14px;
-  margin-bottom: 16px;
-  overflow-x: auto; /* graceful overflow for many/long labels */
+  border-radius: 11.3px;
+  margin-bottom: 13px;
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 #panel-skills .skill-tab {
-  padding: 8px 14px;
-  border-radius: 10px;
+  position: relative;
+  padding: 6.5px 11.3px;
+  border-radius: 8.1px;
   border: 1px solid transparent;
   background: transparent;
   color: var(--muted);
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease, transform 0.08s ease;
-  font-size: 14px;
+  font-size: 11.3px;
   white-space: nowrap;
 }
-
 #panel-skills .skill-tab:hover {
   color: var(--text);
   background: var(--panel-2);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
 }
-
 #panel-skills .skill-tab.is-active {
   color: #0f1115;
   background: var(--accent);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--accent) 30%, transparent);
+}
+/* subtle glow indicator below active tab */
+#panel-skills .skill-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -11.3px;
+  translate: -50% 0;
+  width: 14.6px;
+  height: 14.6px;
+  background: radial-gradient(
+    circle at 50% 0,
+    color-mix(in oklab, var(--accent) 60%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
 }
 
 /* Panel body */
 #panel-skills .skill-panel {
-  background: var(--panel);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
   border: 1px solid var(--outline);
-  border-radius: 14px;
-  padding: clamp(12px, 2.5vw, 20px);
+  border-radius: 11.3px;
+  padding: clamp(9.7px, 2.3vw, 16.2px);
+  box-shadow: var(--shadow);
 }
 
-/* Pill list (kept as flex per your original) */
+/* Pill list */
 #panel-skills .pill-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 9.7px;
   justify-content: center;
   padding: 0;
   margin: 0;
@@ -87,54 +106,44 @@
 }
 
 #panel-skills .pill {
-  padding: 12px 14px;
+  position: relative;
+  padding: 9.7px 11.3px;
   border: 1px solid var(--outline);
-  background: var(--panel-2);
-  border-radius: 16px;
-  font-size: 13px;
-  min-width: 140px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border-radius: 13px;
+  font-size: 10.5px;
+  min-width: 113px;
   display: grid;
-  grid-template-rows: auto auto; /* title then logo */
+  grid-template-rows: auto auto;
   justify-items: center;
   align-items: center;
-  gap: 8px;
+  gap: 6.5px;
   text-align: center;
   color: var(--text);
-  transition: transform 0.08s ease, background 0.15s ease;
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  isolation: isolate;
 }
-
+#panel-skills .pill::before {
+  content: "";
+  position: absolute;
+  inset: -1.6px;
+  border-radius: inherit;
+  background: radial-gradient(
+    81px 54px at 10% -10%,
+    color-mix(in oklab, var(--accent) 40%, transparent),
+    transparent 70%
+  );
+  opacity: 0.3;
+  z-index: -1;
+}
 #panel-skills .pill:hover {
   transform: translateY(-1px);
   background: var(--panel);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
 #panel-skills .pill-title {
   font-weight: 700;
   line-height: 1.2;
-}
-
-/* Responsive logo helper (replaces strict 50x50) */
-#panel-skills .logo-50 {
-  width: clamp(32px, 8vw, 50px);
-  height: clamp(32px, 8vw, 50px);
-  object-fit: contain;
-  display: block;
-}
-
-/* Small screens */
-@media (max-width: 640px) {
-  #panel-skills.view {
-    /* previously: a fixed height formula; allowing content to define height */
-    padding: 16px;
-  }
-
-  #panel-skills .skill-tab {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
-
-  #panel-skills .pill {
-    font-size: 12px;
-    min-width: 120px;
-  }
 }

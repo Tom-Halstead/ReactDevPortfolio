@@ -1,25 +1,35 @@
 /* ----- App shell: flexible height + real sticky footer ----- */
 .app-shell {
   /* allow page to be taller than the viewport while still filling it */
-  min-height: 100dvh; /* better than 100vh on mobile */
+  min-height: 100dvh;
   height: auto;
   display: grid;
-  grid-template-rows: 64px 56px minmax(0, 1fr) minmax(48px, auto); /* header, tabs, content, footer (footer grows) */
+  /* header 52.2px, tabs 45.36px, content, footer min 38.88px */
+  grid-template-rows: 52.2px 45.36px minmax(0, 1fr) minmax(38.88px, auto);
   background: var(--bg);
+}
+
+/* Collapse the 1px seam between header border-bottom and tabs border-top */
+.app-shell > .tabs {
+  margin-top: -1px;
 }
 
 @media (max-width: 640px) {
   .app-shell {
-    grid-template-rows: 56px 48px minmax(0, 1fr) minmax(48px, auto);
+    /* header 45.36px, tabs 38.88px, content, footer min 38.88px */
+    grid-template-rows: 45.36px 38.88px minmax(0, 1fr) minmax(38.88px, auto);
+  }
+
+  /* keep seam collapsed on mobile too */
+  .app-shell > .tabs {
+    margin-top: -1px;
   }
 }
 
 /* ----- Viewport/content area: scrolls, starts at top, centers horizontally ----- */
 .viewport {
-  /* leave overflow visible on x, but scroll on y inside the content row only (uncomment if needed) */
-  /* overflow-y: auto; */
   overflow-x: hidden;
-  padding: clamp(12px, 3vw, 24px);
+  padding: clamp(9.72px, 3vw, 19.44px); /* 10.8..21.6 -> -10% */
   display: grid;
   place-items: center;
 }
@@ -29,10 +39,10 @@
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--outline);
   box-shadow: var(--shadow);
-  border-radius: 18px;
+  border-radius: 14.58px; /* 16.2 -> -10% */
 }
 @media (max-width: 480px) {
   .panel {
-    border-radius: 14px;
+    border-radius: 11.34px; /* 12.6 -> -10% */
   }
 }
