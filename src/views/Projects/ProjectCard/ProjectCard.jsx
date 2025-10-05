@@ -1,7 +1,6 @@
 // src/Projects/ProjectCard/ProjectCard.jsx
 import React from "react";
-import "../../components/Card/Card.jsx"; // ensure bundlers include styling if any side-effects
-import Card from "../../components/Card/Card.jsx";
+import Card from "../../../components/Card/Card.jsx";
 import "./ProjectCard.css";
 import TechStack from "../TechStack/TechStack.jsx";
 

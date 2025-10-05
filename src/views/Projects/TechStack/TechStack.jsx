@@ -1,6 +1,6 @@
 import React from "react";
 import "./TechStack.css";
-import { iconPathCandidates } from "../../js/logosMap.js";
+import { iconPathCandidates } from "../../../js/logosMap.js";
 
 function Logo({ name }) {
   const candidates = React.useMemo(() => iconPathCandidates(name), [name]);
