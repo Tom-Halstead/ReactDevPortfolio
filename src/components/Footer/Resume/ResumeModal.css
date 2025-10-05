@@ -1,0 +1,125 @@
+/* Full-viewport overlay */
+.resume-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: max(env(safe-area-inset-top), 12px)
+    max(env(safe-area-inset-right), 12px) max(env(safe-area-inset-bottom), 12px)
+    max(env(safe-area-inset-left), 12px);
+  background: linear-gradient(180deg, rgba(4, 6, 10, 0.7), rgba(4, 6, 10, 0.86)),
+    radial-gradient(
+      80% 120% at 50% -10%,
+      rgba(16, 22, 34, 0.6),
+      transparent 70%
+    );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: resume-overlay-fade 0.18s ease forwards;
+  cursor: zoom-out; /* click-away */
+}
+@keyframes resume-overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Dialog container */
+.resume-dialog {
+  position: relative;
+  width: min(86vw, 980px);
+  height: min(82vh, 860px);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--panel, #11161f);
+  border: 1px solid var(--outline, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.55);
+  animation: resume-dialog-pop 0.16s ease forwards;
+  cursor: default;
+}
+@keyframes resume-dialog-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* PDF iframe */
+.resume-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: var(--panel-2, #0c1118);
+}
+
+/* Close button */
+.resume-close {
+  position: absolute;
+  top: clamp(14px, 2.2vw, 20px);
+  right: clamp(14px, 2.2vw, 20px);
+  width: clamp(32px, 5vw, 44px);
+  height: clamp(32px, 5vw, 44px);
+  border-radius: 999px;
+
+  display: grid;
+  place-items: center;
+  font-size: clamp(18px, 3.2vw, 22px);
+  font-weight: 800;
+  line-height: 1;
+
+  color: #fff;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+
+  cursor: pointer;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.08s ease, background 0.15s ease,
+    border-color 0.15s ease;
+}
+.resume-close:hover {
+  transform: translateY(-1px) scale(1.03);
+}
+.resume-close:active {
+  transform: translateY(0) scale(0.98);
+}
+.resume-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Download link (optional) */
+.resume-download {
+  position: absolute;
+  left: clamp(12px, 2vw, 18px);
+  bottom: clamp(10px, 1.8vw, 16px);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--outline, rgba(255, 255, 255, 0.08));
+  background: color-mix(in oklab, var(--panel-2, #0c1118) 88%, transparent);
+  color: var(--text, #e8eef8);
+  font-size: 12px;
+  text-decoration: none;
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+.resume-download:hover {
+  transform: translateY(-1px);
+  background: var(--panel, #11161f);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .resume-overlay,
+  .resume-dialog {
+    animation: none !important;
+  }
+}
