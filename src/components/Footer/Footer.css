@@ -229,7 +229,7 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease, text-shadow 0.2s ease;
-  max-width: 25.92ch; /* 28.8ch -> 90% */
+  max-width: 28.1ch; /* 28.8ch -> 90% */
   overflow: hidden;
   text-overflow: ellipsis;
 }

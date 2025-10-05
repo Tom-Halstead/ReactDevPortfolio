@@ -3,18 +3,6 @@ import React from "react";
 import "./CertsModal.css";
 import { usePdfPrefetch, prefetchPdfList } from "../../../js/usePdfPrefetch";
 
-/**
- * CertsModal
- * - Full-viewport overlay (click-away + Esc to close)
- * - Tabs + Prev/Next arrows + ←/→ keyboard
- * - Prefetches the current PDF (Blob URL) and pre-warms neighbors
- *
- * Props:
- *  - open: boolean
- *  - onClose: () => void
- *  - items: Array<{ id?: string, label: string, src: string }>
- *  - initialIndex?: number
- */
 export default function CertsModal({
   open,
   onClose,
@@ -28,18 +16,15 @@ export default function CertsModal({
   );
   const [index, setIndex] = React.useState(safeInitial);
 
-  // Keep index bounded if items length changes
   React.useEffect(() => {
     if (!count) return;
     setIndex((i) => Math.min(Math.max(i, 0), count - 1));
   }, [count]);
 
-  // Reset to initial when opening
   React.useEffect(() => {
     if (open) setIndex(safeInitial);
   }, [open, safeInitial]);
 
-  // Close on Escape + navigate with arrows (hook is unconditional; logic is conditional)
   React.useEffect(() => {
     const onKey = (e) => {
       if (!open || !count) return;
@@ -51,13 +36,12 @@ export default function CertsModal({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose, count]);
 
-  // Derive current item BEFORE any early return so hooks can use it
   const current = items[index] ?? items[safeInitial] ?? items[0] ?? null;
 
-  // Prefetch the current PDF; hook is ALWAYS called (eager only when open)
+  // Prefetch the current (eager only when open)
   const { blobUrl } = usePdfPrefetch(current?.src, { eager: !!open });
 
-  // Prefetch neighbors when (open && count) and index changes
+  // Warm neighbors
   React.useEffect(() => {
     if (!open || !count) return;
     const prev = items[(index - 1 + count) % count]?.src;
@@ -65,8 +49,22 @@ export default function CertsModal({
     prefetchPdfList([prev, next]);
   }, [open, index, items, count]);
 
-  // Now it's safe to early-return
   if (!open || !count) return null;
+
+  // ---- Ensure the PDF viewer updates ----
+  // 1) For blob URLs: unique each fetch, so just use it.
+  // 2) For non-blob URLs: add a small cache-bust query tied to the active item.
+  const baseSrc = (blobUrl || current?.src) ?? "";
+  const isBlob = baseSrc.startsWith("blob:");
+  const cacheKey = encodeURIComponent(current?.id ?? String(index));
+  const srcWithBust = isBlob
+    ? baseSrc
+    : baseSrc.includes("?")
+    ? `${baseSrc}&_v=${cacheKey}`
+    : `${baseSrc}?_v=${cacheKey}`;
+
+  // 3) Force iframe to remount when selection changes
+  const iframeKey = current?.id ?? `${index}-${Boolean(blobUrl)}`;
 
   const goPrev = () => setIndex((i) => (i - 1 + count) % count);
   const goNext = () => setIndex((i) => (i + 1) % count);
@@ -85,7 +83,6 @@ export default function CertsModal({
         role="document"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close “X” */}
         <button
           type="button"
           className="certs-close"
@@ -95,7 +92,6 @@ export default function CertsModal({
           ✕
         </button>
 
-        {/* Tabs / pills */}
         {count > 1 && (
           <div className="certs-tabs" role="tablist" aria-label="Certificates">
             {items.map((it, i) => (
@@ -113,7 +109,6 @@ export default function CertsModal({
           </div>
         )}
 
-        {/* Prev/Next arrows */}
         {count > 1 && (
           <>
             <button
@@ -135,17 +130,14 @@ export default function CertsModal({
           </>
         )}
 
-        {/* PDF viewer */}
         <iframe
+          key={iframeKey}
           className="certs-frame"
-          src={`${
-            (blobUrl || current?.src) ?? ""
-          }#toolbar=1&navpanes=0&view=FitH`}
+          src={`${srcWithBust}#toolbar=1&navpanes=0&view=FitH`}
           title={current?.label || "Certificate"}
           loading="eager"
         />
 
-        {/* Open original PDF in a new tab */}
         {!!current?.src && (
           <a
             className="certs-download"

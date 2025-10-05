@@ -35,34 +35,33 @@ export default function Home() {
             <About
               id="about-work"
               title="About — Work"
-              intro="Backend-leaning full-stack dev who ships fast and clean."
+              intro="Backend-leaning full-stack dev who ships fast and clean"
               chips={[
                 "Years coding: 3+",
                 "Core stack: Java • Spring • Postgres",
                 "Also: React • REST • AWS",
               ]}
               items={[
-                "Very consistent, determined, and disciplined.",
-                "Built secure auth flows (Cognito/OIDC/JWT).",
-                "Integrated external APIs (news, Reddit, payments).",
-                "Wrote tests (JUnit) and docs; automated Postman collections.",
+                "Very consistent, determined, and disciplined",
+                "Built secure auth flows (Cognito/OIDC/JWT)",
+                "Integrated external APIs (news, Reddit, payments)",
+                "Wrote tests (JUnit) and docs; automated Postman collections",
               ]}
             />
 
             <About
               id="about-home"
               title="About — Home"
-              intro="Builder, tinkerer, and life-long learner."
+              intro="Builder, thrill seeker, and life-long learner"
               chips={[
                 "Hobbies: Cars, Gym, Travel",
                 "Learning: Virtues + Patience",
-                "Value: Consistency > Intensity",
+                "When motivation fails, discipline prevails",
               ]}
               items={[
-                "Weekend: Outdoor activities that keep me grounded.",
-                "I like keeping things organized and measurable.",
-                "Always up for a new challenge or adventure.",
-                "I try to embody stoicism to the best of my abilities.",
+                "Weekend: Outdoor activities that keep me grounded",
+                "I like keeping things organized and measurable",
+                "Always up for a new challenge or adventure",
               ]}
             />
           </header>

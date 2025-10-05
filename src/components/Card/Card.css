@@ -9,7 +9,7 @@
   color: var(--text);
 }
 .card:hover {
-  transform: translateY(-1.8px); /* 2px → 1.8px */
+  transform: translateY(-1.8px);
   background: var(--panel);
   border-color: var(--outline);
 }
