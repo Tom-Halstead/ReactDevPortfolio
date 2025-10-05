@@ -1,0 +1,66 @@
+/* src/styles/panel-card.css */
+/* Shared card look used by About and Status cards */
+
+.home-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 6.2px;
+  text-align: left;
+  padding: clamp(10.8px, 2.05vw, 15.4px);
+  border-radius: 13.9px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--outline);
+  box-shadow: var(--shadow);
+  overflow: clip;
+  isolation: isolate;
+  transition: transform 0.16s ease, border-color 0.2s ease, background 0.2s ease,
+    box-shadow 0.3s ease;
+}
+.home-card:hover {
+  transform: translateY(-1.7px);
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--outline));
+  box-shadow: 0 10.3px 29.9px rgba(0, 0, 0, 0.35);
+}
+
+/* Typography inside cards */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 4.6px;
+  font-size: clamp(11.5px, 1.28vw, 13.1px);
+  color: var(--text);
+  letter-spacing: 0.154px;
+  margin: 0 0 1.5px;
+}
+.card-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(10px, 1.03vw, 10.8px);
+  line-height: 1.45;
+}
+.card-text.strong {
+  font-weight: 700;
+  color: #0f1115;
+}
+
+.dot {
+  font-size: 10.8px;
+  line-height: 1;
+  color: var(--accent);
+}
+.dot-invert {
+  color: #0f1115;
+}
+
+/* Hover perf nudge */
+.home-card:hover {
+  will-change: transform;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-card {
+    transition: none !important;
+  }
+}

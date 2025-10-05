@@ -1,0 +1,104 @@
+/* src/components/StatusCard/StatusCard.css */
+
+/* Keep your green surface */
+.status-card {
+  background: var(--accent) !important;
+  border-color: color-mix(in oklab, var(--accent) 70%, var(--outline));
+  color: #0f1115;
+}
+
+/* Typography colors */
+.status-card .card-title,
+.status-card .card-text {
+  color: #0f1115;
+}
+
+/* ---------- Compact, readable spacing (fix “words have no spacing”) ---------- */
+.status-card.home-card {
+  /* modest internal spacing that won't bloat height */
+  gap: clamp(4px, 0.7vw, 6px);
+  padding-block: clamp(8px, 1.4vw, 12px);
+  padding-inline: clamp(10px, 2vw, 14px);
+}
+
+.status-card .card-title {
+  margin: 0;
+  font-size: clamp(11px, 1.1vw, 12.5px);
+  line-height: 1.15;
+  letter-spacing: 0.012em; /* subtle tracking for legibility */
+}
+
+.status-card .card-text {
+  margin: 0;
+  padding-block: 2px 4px; /* extra bottom pad gives the underline room */
+  line-height: 1.4; /* more breathing room between lines */
+  letter-spacing: 0.01em; /* slight letter spacing */
+  word-spacing: 0.02em; /* increases space between words */
+  font-weight: 700;
+  font-size: clamp(10px, 1.02vw, 10.8px);
+  display: inline-block; /* keeps underline width to content */
+  overflow: visible;
+}
+
+/* Small devices: tiny extra cushion to avoid crowding */
+@media (max-width: 420px) {
+  .status-card.home-card {
+    padding-block: 10px;
+    padding-inline: 12px;
+  }
+}
+
+/* ---------- Hover (higher specificity than .home-card:hover) ---------- */
+.status-card.home-card:hover {
+  transform: translateY(-2.3px);
+  box-shadow: 0 13.7px 34.2px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Wave underline (smoother, non-infinite by default) ---------- */
+.status-card .card-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px; /* sits just under descenders thanks to extra bottom padding */
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(15, 17, 21, 0) 35%,
+    rgba(15, 17, 21, 0.7) 45%,
+    #0f1115 50%,
+    rgba(15, 17, 21, 0.7) 55%,
+    rgba(15, 17, 21, 0) 65%,
+    transparent 100%
+  );
+  transform: translateX(-105%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* animate once per hover for a clean “swoosh” effect */
+.status-card:hover .card-text::after {
+  animation: wave-underline 0.95s ease-out 1;
+}
+
+@keyframes wave-underline {
+  0% {
+    transform: translateX(-105%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(105%);
+    opacity: 0;
+  }
+}

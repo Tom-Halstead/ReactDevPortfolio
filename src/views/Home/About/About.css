@@ -1,0 +1,95 @@
+/* src/components/About/About.css */
+
+/* About section */
+.about-card {
+  margin-top: 1.5px;
+}
+
+.about-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6.2px;
+  margin-top: 4.6px;
+}
+.about-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4.6px 7.7px;
+  border-radius: 9999px;
+  border: 1px solid var(--outline);
+  background: color-mix(in oklab, var(--panel-2) 92%, transparent);
+  font-size: 9.2px;
+  color: var(--text);
+  white-space: nowrap;
+}
+.about-list {
+  margin: 6.2px 0 0;
+  padding-left: 13.9px;
+  color: var(--muted);
+  font-size: clamp(10px, 1.03vw, 10.8px);
+  line-height: 1.45;
+}
+.about-list li {
+  margin: 3.1px 0;
+}
+
+.about-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6.2px;
+}
+.about-toggle {
+  display: none;
+  height: 23.1px;
+  width: 23.1px;
+  border-radius: 7.7px;
+  border: 1px solid var(--outline);
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease,
+    border-color 0.15s ease;
+}
+.about-toggle:hover {
+  transform: translateY(-0.85px);
+}
+.about-toggle:active {
+  transform: translateY(0);
+}
+.chev {
+  width: 12.3px;
+  height: 12.3px;
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.18s ease;
+}
+.about-toggle.is-open .chev {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 860px) {
+  .about-toggle {
+    display: grid;
+    place-items: center;
+  }
+  .about-card .about-body {
+    overflow: hidden;
+    max-height: 770px; /* 810px -> 95% */
+    transition: max-height 220ms ease;
+  }
+  .about-card.is-collapsed .about-body {
+    max-height: 0;
+  }
+  .about-card.is-collapsed {
+    padding-bottom: 7.7px;
+  }
+
+  /* preserve ordering on mobile */
+  .about-home {
+    order: 1;
+  }
+  .about-work {
+    order: 2;
+  }
+}

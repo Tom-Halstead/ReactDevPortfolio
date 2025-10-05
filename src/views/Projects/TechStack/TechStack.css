@@ -1,0 +1,52 @@
+.stack-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6.5px 8.1px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.stack-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4.9px;
+  padding: 4.9px 8.1px;
+  border: 1px solid var(--outline);
+  background: var(--panel-2);
+  color: var(--text);
+  border-radius: 999px;
+  font-size: 9.7px;
+  line-height: 1;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.1s ease;
+}
+.stack-pill:hover {
+  background: var(--panel);
+  transform: translateY(-0.9px);
+}
+.stack-ico {
+  width: 14.6px;
+  height: 14.6px;
+  object-fit: contain;
+  display: block;
+}
+.stack-text {
+  text-transform: none;
+}
+
+@media (max-width: 760px) {
+  .stack-pill {
+    padding: 4.1px 6.5px;
+    font-size: 8.9px;
+  }
+  .stack-ico {
+    width: 13px;
+    height: 13px;
+  }
+}
+@media (max-width: 480px) {
+  .stack-pill {
+    padding: 3.2px 5.7px;
+    font-size: 8.5px;
+  }
+}
