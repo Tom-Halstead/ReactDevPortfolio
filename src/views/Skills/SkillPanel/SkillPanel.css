@@ -1,0 +1,8 @@
+/* Panel body */
+#panel-skills .skill-panel {
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--outline);
+  border-radius: 11.3px;
+  padding: clamp(9.7px, 2.3vw, 16.2px);
+  box-shadow: var(--shadow);
+}

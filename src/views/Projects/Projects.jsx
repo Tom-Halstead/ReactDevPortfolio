@@ -5,8 +5,15 @@ import ProjectCard from "./ProjectCard/ProjectCard.jsx";
 import LivePreviewModal from "./LivePreviewModal/LivePreviewModal.jsx";
 import Card from "../../components/Card/Card.jsx";
 
-export default function ProjectsSection() {
+export default function Projects() {
   const [activePreview, setActivePreview] = React.useState(null);
+
+  // ESC to close live preview modal
+  React.useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && setActivePreview(null);
+    if (activePreview) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [activePreview]);
 
   return (
     <section
@@ -22,18 +29,14 @@ export default function ProjectsSection() {
         </p>
 
         <div className="projects-grid grid">
-          {items.map((p, idx) => {
-            const side = idx % 2 === 0 ? "left" : "right";
-            return (
-              <ProjectCard
-                key={p.name}
-                project={p}
-                side={side}
-                Card={Card}
-                onLivePreview={() => setActivePreview(p)}
-              />
-            );
-          })}
+          {items.map((p, idx) => (
+            <ProjectCard
+              key={p.name}
+              project={p}
+              side={idx % 2 === 0 ? "left" : "right"}
+              onLivePreview={() => setActivePreview(p)}
+            />
+          ))}
         </div>
       </div>
 

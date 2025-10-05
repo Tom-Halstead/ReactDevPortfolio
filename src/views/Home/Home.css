@@ -1,14 +1,14 @@
 /* src/views/Home/Home.css */
 
-/* Panel shell */
+/* ——— Base panel shell (unchanged from your tuned size) ——— */
 .view {
-  width: min(846.5px, 78.7vw); /* 891px, 82.8vw -> 95% */
+  width: min(846.5px, 78.7vw);
   height: auto;
   max-height: 100%;
   min-height: 0;
-  padding: clamp(12.3px, 2.6vw, 18.5px); /* 12.96px 19.44px -> 95% */
+  padding: clamp(12.3px, 2.6vw, 18.5px);
   display: grid;
-  place-items: center;
+  place-items: center; /* keep default centering for other panels */
   text-align: center;
 }
 
@@ -18,7 +18,7 @@
   height: auto;
   min-height: 0;
   display: grid;
-  grid-template-columns: 0.9833fr 0.727fr; /* 1.035, 0.765 -> 95% */
+  grid-template-columns: 0.9833fr 0.727fr;
   align-items: center;
   gap: clamp(12.3px, 3.4vw, 21.5px);
 }
@@ -28,23 +28,22 @@
   display: grid;
   justify-items: center;
   align-content: start;
-  gap: 10px; /* cozy cushion without adding vertical bloat */
+  gap: 10px;
 }
 
-/* Match the avatar’s clamp so widths stay visually aligned and compact */
+/* Match the avatar clamp so widths stay aligned */
 .right-col .status-card {
   width: clamp(154px, 27.4vw, 200.1px);
-  margin-top: 8px; /* a touch of space under the circle */
+  margin-top: 8px;
 }
 
-/* Intro block (left) */
+/* Intro (left) */
 .intro {
   text-align: left;
   display: grid;
   align-content: start;
   gap: clamp(10.8px, 2.05vw, 13.9px);
 }
-/* (removed old .intro .status-card margin since card moved to right-col) */
 
 .title {
   font-size: clamp(21.5px, 3.4vw, 33.9px);
@@ -62,9 +61,10 @@
   line-height: 1.5;
 }
 
-/* === Scale-to-fit shell === */
+/* === Scale-to-fit wrapper around the avatar ===
+   Keep it clipped so decorative glows don’t leak. */
 .fit-outer {
-  overflow: hidden;
+  overflow: hidden; /* restore clipping here */
   position: relative;
 }
 .fit-inner {
@@ -72,6 +72,22 @@
   transform: scale(var(--fit-scale));
   transform-origin: top center;
   display: inline-block;
+}
+
+/* ——— Home-only overrides: allow natural growth + page scroll ——— */
+#panel-home.view,
+.panel-home.view {
+  /* Break out of the centered grid so height grows with content */
+  display: block;
+  width: min(846.5px, 78.7vw);
+  margin: 0 auto;
+  height: auto;
+  min-height: 0;
+}
+
+#panel-home .home-split,
+.panel-home .home-split {
+  align-items: start; /* top-align so expansion pushes page downward */
 }
 
 /* Responsiveness */
@@ -100,26 +116,10 @@
     max-height: 100%;
     min-height: 0;
   }
-}
 
-/* Overflow fix for Home panel — keep natural growth */
-#panel-home.view,
-.panel-home.view {
-  height: auto;
-  min-height: 0;
-  place-items: initial;
-  align-content: start;
-  justify-items: center;
-}
-#panel-home .home-split,
-.panel-home .home-split {
-  height: auto;
-  min-height: 0;
-  align-items: start;
-}
-@media (max-width: 640px) {
   #panel-home.view,
   .panel-home.view {
+    display: block; /* keep block on small screens too */
     height: auto;
   }
 }

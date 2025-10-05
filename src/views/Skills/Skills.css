@@ -1,15 +1,15 @@
-/* ===== Skills (scoped, 90% scale + enhanced styling) ===== */
+/* ===== Skills container (scoped like your original) ===== */
 
-/* Container */
 #panel-skills.view {
-  width: min(891px, 82.8vw); /* 990 -> 891 */
+  width: min(891px, 82.8vw);
   height: auto;
   min-height: 0;
-  padding: clamp(13px, 2.7vw, 22.7px); /* 14.4..25.2 -> 13..22.7 */
+  padding: clamp(13px, 2.7vw, 22.7px);
   display: grid;
   align-content: start;
   justify-items: center;
   text-align: center;
+  margin: 0 auto;
 }
 
 #panel-skills .skills-wrap {
@@ -25,125 +25,4 @@
   color: var(--muted);
   margin: 0 0 13px;
   font-size: clamp(10.5px, 1.6vw, 12.1px);
-}
-
-/* Tabs */
-#panel-skills .skill-tabs {
-  display: flex;
-  gap: 6.5px;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 6.5px;
-  background: linear-gradient(180deg, var(--panel-2), var(--panel));
-  border: 1px solid var(--outline);
-  border-radius: 11.3px;
-  margin-bottom: 13px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-#panel-skills .skill-tab {
-  position: relative;
-  padding: 6.5px 11.3px;
-  border-radius: 8.1px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.08s ease;
-  font-size: 11.3px;
-  white-space: nowrap;
-}
-#panel-skills .skill-tab:hover {
-  color: var(--text);
-  background: var(--panel-2);
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
-}
-#panel-skills .skill-tab.is-active {
-  color: #0f1115;
-  background: var(--accent);
-  box-shadow: 0 6px 18px color-mix(in oklab, var(--accent) 30%, transparent);
-}
-/* subtle glow indicator below active tab */
-#panel-skills .skill-tab.is-active::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -11.3px;
-  translate: -50% 0;
-  width: 14.6px;
-  height: 14.6px;
-  background: radial-gradient(
-    circle at 50% 0,
-    color-mix(in oklab, var(--accent) 60%, transparent),
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-/* Panel body */
-#panel-skills .skill-panel {
-  background: linear-gradient(180deg, var(--panel-2), var(--panel));
-  border: 1px solid var(--outline);
-  border-radius: 11.3px;
-  padding: clamp(9.7px, 2.3vw, 16.2px);
-  box-shadow: var(--shadow);
-}
-
-/* Pill list */
-#panel-skills .pill-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9.7px;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-#panel-skills .pill {
-  position: relative;
-  padding: 9.7px 11.3px;
-  border: 1px solid var(--outline);
-  background: linear-gradient(180deg, var(--panel-2), var(--panel));
-  border-radius: 13px;
-  font-size: 10.5px;
-  min-width: 113px;
-  display: grid;
-  grid-template-rows: auto auto;
-  justify-items: center;
-  align-items: center;
-  gap: 6.5px;
-  text-align: center;
-  color: var(--text);
-  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  isolation: isolate;
-}
-#panel-skills .pill::before {
-  content: "";
-  position: absolute;
-  inset: -1.6px;
-  border-radius: inherit;
-  background: radial-gradient(
-    81px 54px at 10% -10%,
-    color-mix(in oklab, var(--accent) 40%, transparent),
-    transparent 70%
-  );
-  opacity: 0.3;
-  z-index: -1;
-}
-#panel-skills .pill:hover {
-  transform: translateY(-1px);
-  background: var(--panel);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-}
-
-#panel-skills .pill-title {
-  font-weight: 700;
-  line-height: 1.2;
 }

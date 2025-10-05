@@ -1,0 +1,53 @@
+/* Pill list */
+#panel-skills .pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9.7px;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#panel-skills .pill {
+  position: relative;
+  padding: 9.7px 11.3px;
+  border: 1px solid var(--outline);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border-radius: 13px;
+  font-size: 10.5px;
+  min-width: 113px;
+  display: grid;
+  grid-template-rows: auto auto;
+  justify-items: center;
+  align-items: center;
+  gap: 6.5px;
+  text-align: center;
+  color: var(--text);
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  isolation: isolate;
+}
+#panel-skills .pill::before {
+  content: "";
+  position: absolute;
+  inset: -1.6px;
+  border-radius: inherit;
+  background: radial-gradient(
+    81px 54px at 10% -10%,
+    color-mix(in oklab, var(--accent) 40%, transparent),
+    transparent 70%
+  );
+  opacity: 0.3;
+  z-index: -1;
+}
+#panel-skills .pill:hover {
+  transform: translateY(-1px);
+  background: var(--panel);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+#panel-skills .pill-title {
+  font-weight: 700;
+  line-height: 1.2;
+}
